@@ -1,0 +1,13 @@
+{
+  "iam": "I'm",
+  "notFound": "Oops. Nothing here...",
+  "goHome": "Go Home",
+  "language": "language",
+  "hello": "Hello",
+  "dark": "dark",
+  "light": "light",
+  "pages": {
+    "home": "Home",
+    "about": "About"
+  }
+}
