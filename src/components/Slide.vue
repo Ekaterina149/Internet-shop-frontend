@@ -1,42 +1,69 @@
-<!-- Слот компонента Carousel.vue -->
-<!-- Анимация Vue3 <transition name="slide"> корректно отображает анимацию перехода "Вперед" -->
-  <!-- Если я листаю назад, то слайд переключается корректно, но используется анимация <transition name="slide"> -->
-    <!-- поэтому кажется как будто листаешь вперед -->
-    <!-- Задача: нужно сделать так, чтобы анимация <transition name="slide"> использовалась только при листании вперед -->
-      <!-- При листании назад продумать другую анимацию, либо сделать так, чтобы при листании назад как-то -->
-      <!--по другому присваивались классы. Короче я не знаю как именно это сделать  -->
-      <!-- Открой компонент Carusel.vue  это мой самый первый вариант карусели. Там есть уже написанные анимации CSS  -->
-      <!-- для листания Вперед и назад. Прочитай комментарий вверху файла Carusel.vue  -->
 <template>
-    <div class="slide">
-      <transition name="slide">
-        <!-- Сюда вставляется контент слота, расположенного между тегами <Slide></Slide> компонент Slide находится в HomeView.vue -->
-        <slot></slot>
-      </transition>
-    </div>
-  </template>
-  
-  <script>
-  export default {};
-  </script>
-  
-  <style lang="scss">
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: translate 0.5s ease-in-out;
-  }
-  
-  .slide-enter-from {
-    transform: translate(0%, 0);
-  }
-  .slide-leave-to {
-    transform: translate(-50%, 0);
-  }
-  
-  .slide-enter-to {
-    transform: translate(50%, 0);
-  }
-  .slide-leave-from {
-    transform: translate( 80%, 0);
-  }
-  </style>
+<TransitionGroup
+      :name="changeAnimationClass"
+      tag="ul"
+      class="swipe_list"
+    >
+        <slot name="image"></slot>
+    </TransitionGroup>
+</template>
+<script setup>
+ const props = defineProps({
+  direction: String,
+});
+console.log("props", props.direction);
+const changeAnimationClass = computed( ()=> {
+    if(props.direction ==='forward')
+    return 'list-in'
+    else return 'list-out'
+}) 
+   
+    
+
+</script>
+<style>
+.swipe_list {
+  width: 100%;
+  height: 100%;
+}
+
+.swipe_list li {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.swipe_list li img {
+  width: 100%;
+  height: 100%;
+}
+
+.list-in-leave-active {
+  transition: all 1s ease;
+  transform: translateX(-100%);
+}
+.list-in-enter-to {
+  transition: all 1s ease;
+  transform: translateX(0);
+}
+.list-in-enter-from {
+  transform: translateX(100%);
+}
+.list-in-leave-from {
+  transform: translateX(0);
+}
+
+.list-out-leave-active {
+  transition: all 1s ease;
+  transform: translateX(100%);
+}
+.list-out-leave-from {
+  transform: translateX(0);
+}
+.list-out-enter-from {
+  transform: translateX(-100%);
+}
+.list-out-enter-to {
+  transition: all 1s ease;
+  transform: translateX(0);
+}
+</style>

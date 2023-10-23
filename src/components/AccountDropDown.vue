@@ -1,9 +1,9 @@
 <template>
   <div
     id="dropdownNavbar"
-    v-if="registered"
+    v-if="loggedin"
     :class="{ hidden: !open }"
-    class="z-20 absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 w-max"
+    class="z-40 absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 w-max"
   >
     <ul
       class="py-2 text-sm text-gray-700 dark:text-gray-400"
@@ -43,6 +43,6 @@
 <script setup>
 const props = defineProps({
   open: Boolean,
-  registered: Boolean,
+  loggedin: Boolean,
 });
 </script>

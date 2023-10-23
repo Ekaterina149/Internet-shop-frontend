@@ -6,7 +6,7 @@
   >
     Аккаунт
     <svg
-      v-if="registered"
+      v-if="loggedin"
       class="w-2.5 h-2.5 ml-2.5 inline-block"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
@@ -40,6 +40,6 @@ const onToogle = () => {
   emit("toggle");
 };
 const props = defineProps({
-  registered: Boolean,
+  loggedin: Boolean,
 });
 </script>

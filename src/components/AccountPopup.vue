@@ -1,8 +1,8 @@
 <template>
   <!-- Main modal -->
   <div
-    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-40 bg-zinc-600 bg-opacity-70"
-    :class="{ hidden: !open }"
+    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-50 bg-zinc-600 bg-opacity-70"
+    :class="{ 'hidden': !open }"
   >
     <div
       id="authentication-modal"
@@ -42,16 +42,15 @@
             Войти в Аккаунт
           </h3>
           <form
-            class="space-y-6 flex flex-col"
+            class="space-y-20 flex flex-col"
             action="#"
             @submit.prevent="onRedirect"
           >
             <div>
               <label
                 for="email"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >email</label
-              >
+                class="block relative mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >email
               <input
                 type="email"
                 name="email"
@@ -60,13 +59,16 @@
                 placeholder="name@company.com"
                 required
               />
+              <span :class="{ 'hidden': !isEmailError }"
+    class="absolute bottom--1 left-0 mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Ой!</span> Email странный.</span>
+              </label
+              >
             </div>
             <div>
               <label
                 for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Пароль</label
-              >
+                class="relative block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Пароль
               <input
                 type="password"
                 name="password"
@@ -75,21 +77,29 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
               />
-            </div>
-            <div class="flex justify-between">
-              <a
-                href="#"
-                class="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                >Забыли пароль?</a
+              <span :class="{ 'hidden': !isPasswordError }" class="absolute bottom--1 left-0 mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Ой!</span> Пароль не подходит.</span>
+              </label
               >
             </div>
-            <button
+            <!-- <div class="flex justify-between">
+              <a
+                href="#"
+                class=" text-sm text-blue-700 hover:underline dark:text-blue-500"
+                >Забыли пароль?</a
+              >
+            </div> -->
+            <div class="relative">
+
+              <p  :class="{ 'hidden': !error }" class="absolute bottom-14 m-0 left-0 w-full  text-lg border-b-2 pb-1 border-red-600 text-red-600"><span class="font-medium">Ой!</span> Зарегистрируйтесь прежде чем войти</p>
+              <button
               type="submit"
               @onclick="onRedirect"
-              class="w-max text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 self-center"
+              class=" relativew-max text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 self-center"
             >
               Войти
             </button>
+            </div>
+            
             <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
               Не Зарегистрированы?
               <RouterLink
@@ -110,7 +120,10 @@ import { RouterLink } from "vue-router";
 import router from "../router/index.ts";
 const props = defineProps({
   open: Boolean,
+  error: Boolean
 });
+const isEmailError=ref(false);
+const isPasswordError=ref(false);
 const emit = defineEmits(["closeAccount"]);
 const onClose = () => {
   emit("closeAccount");
