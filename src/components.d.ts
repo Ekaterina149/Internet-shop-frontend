@@ -13,6 +13,8 @@ declare module '@vue/runtime-core' {
     AccountDropDown: typeof import('./components/AccountDropDown.vue')['default']
     AccountPopup: typeof import('./components/AccountPopup.vue')['default']
     BasketButton: typeof import('./components/BasketButton.vue')['default']
+    BasketItemButton: typeof import('./components/BasketItemButton.vue')['default']
+    BasketRemoveItemButton: typeof import('./components/BasketRemoveItemButton.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Carousel: typeof import('./components/Carousel.vue')['default']
     Carusel: typeof import('./components/old/Carusel.vue')['default']
@@ -21,6 +23,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Slide: typeof import('./components/Slide.vue')['default']
+    TobasketButton: typeof import('./components/TobasketButton.vue')['default']
     UndefinedWelcome: typeof import('./components/UndefinedWelcome.vue')['default']
   }
 }

@@ -22,7 +22,11 @@ body {
 }
 
 #app {
-  @apply font-noto bg-light text-gray-700 dark:bg-dark dark:text-white;
+  @apply font-noto bg-light text-gray-700 dark:bg-dark dark:text-white ;
+  background-image:  url('@/assets/grey-wicker-bars.png');
+  display: flex;
+  flex-direction: column;
+
 }
 
 #app,

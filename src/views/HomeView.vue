@@ -17,7 +17,7 @@
       <template v-slot:routerLink>
         <RouterLink
           to="shop"
-          class="opacity-0 h-full flex items-center justify-center absolute z-30 text-white text-3xl rounded md:bg-transparent md:hover:text-3xl hover:ease-out ease-in duration-300 hover:opacity-100 w-full"
+          class="opacity-0 h-full flex items-center justify-center absolute z-30 text-white text-3xl rounded md:bg-transparent md:hover:text-3xl  hover:opacity-100 w-full"
         >
           В магазин &rarr;
         </RouterLink>
@@ -55,7 +55,7 @@
     </h3>
   
     <article class="flex flex-row gap-1 sm:gap-2 md:gap-14 flex-wrap justify-center">
-      <div class="max-w-[fit-content]  lg:max-w-[450px] sm:max-w-[280px] md:max-w-[300px] min-[900px]:max-w-[380px] xl:max-w-[550px] 2xl:max-w-[700px] ">
+      <div class="max-w-[fit-content]  lg:max-w-[700px] sm:max-w-[280px] md:max-w-[300px] min-[900px]:max-w-[380px] xl:max-w-[1000px] 2xl:max-w-[450px] ">
         <img
       src="../assets/loza-2.jpg"
       class="w-[160px] h-[200px] sm:w-[250px] sm:h-[312px] object-cover object-bottom  mr-6 col-span-1 row-span-1 float-left"
@@ -95,7 +95,7 @@
       нешуточные испытания — например, держат корзины из бумажной лозы на улице.
       Если вы всё сделали правильно, прочность изделий вас не разочарует!
     </p> -->
-    <div class="max-w-[fit-content]  lg:max-w-[450px] sm:max-w-[280px] md:max-w-[300px] min-[900px]:max-w-[380px] xl:max-w-[550px] 2xl:max-w-[700px] ">
+    <div class="max-w-[fit-content]  lg:max-w-[700px] sm:max-w-[280px] md:max-w-[300px] min-[900px]:max-w-[380px] xl:max-w-[1000px] 2xl:max-w-[450px] ">
      
     <p class="text-base lg:text-lg text-black font-mono gap-1  col-start-2 col-end-2 row-start-1 row-end-1">
       Все мы знаем, какие прекрасные предметы интерьера, мебель, корзины можно

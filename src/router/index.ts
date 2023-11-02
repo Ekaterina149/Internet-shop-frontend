@@ -6,6 +6,7 @@ import RegisterView from "../views/RegisterView.vue";
 import ProfileView from "../views/PofileView.vue";
 import BasketView from "../views/BasketView.vue";
 import OrdersView from "../views/OrdersView.vue";
+import CardView from "../views/CardView.vue"
 
 
 const router = createRouter({
@@ -40,6 +41,12 @@ const router = createRouter({
           path: "orders",
           name:"orders",
           component: OrdersView,
+
+        },
+        {
+          path: "card/:cardId",
+          name:"cards",
+          component: CardView,
 
         },
       ],
