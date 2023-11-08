@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     AccountDropDown: typeof import('./components/AccountDropDown.vue')['default']
     AccountPopup: typeof import('./components/AccountPopup.vue')['default']
     BasketButton: typeof import('./components/BasketButton.vue')['default']
+    BasketItem: typeof import('./components/BasketItem.vue')['default']
     BasketItemButton: typeof import('./components/BasketItemButton.vue')['default']
     BasketRemoveItemButton: typeof import('./components/BasketRemoveItemButton.vue')['default']
     Card: typeof import('./components/Card.vue')['default']

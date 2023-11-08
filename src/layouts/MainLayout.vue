@@ -13,7 +13,7 @@ import AccountPopup from '../components/AccountPopup.vue';
 import NavBar from '../components/NavBar.vue';
 
 const isAccountOpen = ref(false);
-const isLoggedin = ref(false);
+const isLoggedin = ref(true);
 const isError = ref(true);
 
 const onToogle = () => {

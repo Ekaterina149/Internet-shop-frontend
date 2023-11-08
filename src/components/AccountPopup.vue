@@ -89,7 +89,7 @@
                 />
                 <span
                   :class="[{ hidden: !model.password.isInvalid }, 'text-black']"
-                  class="absolute bottom--1 left-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                  class="absolute  left-0 mt-2 text-xs text-red-600 dark:text-red-400"
                   ><span class="font-medium">Ой!
 
                   </span> 
@@ -127,7 +127,7 @@
             <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
               Не Зарегистрированы?
               <RouterLink
-                to="orders"
+                to="/signup"
                 class="text-blue-700 hover:underline dark:text-blue-500 pl-3"
                 >Регистрация</RouterLink
               >
