@@ -8,7 +8,7 @@
   <div class="flex md:order-2">
     <div class="relative w-max">
       <AccountButton @toggle="onToogle" class="block md:hidden" :loggedin="isLoggedin"/>
-      <AccountDropDown :loggedin="isLoggedin" :open="isAccountOpen"/>
+      <AccountDropDown   v-if="!isComponentVisible" :loggedin="isLoggedin" :open="isAccountOpen"/>
     </div>
       
       <BasketButton :basketLength="cardsStore.basketArray.length" class="block md:hidden"/>
@@ -30,8 +30,8 @@
       </li>
       <li>
         <div class="relative w-max">
-          <AccountButton class ="hidden md:block" @toggle="onToogle"/>
-          <AccountDropDown :loggedin="isLoggedin" :open="isAccountOpen"/>
+          <AccountButton  class ="hidden md:block" @toggle="onToogle"/>
+          <AccountDropDown v-if="isComponentVisible" :loggedin="isLoggedin" :open="isAccountOpen"/>
         </div>
       </li>
       <li>
@@ -53,6 +53,7 @@ import {RouterLink} from 'vue-router';
 import { useCardsStore } from "../stores/cardsStore.ts";
 const cardsStore = useCardsStore();
 const isOpen = ref(false);
+const isComponentVisible = ref(true);
 const props = defineProps({
   isLoggedin: Boolean,
   isAccountOpen: Boolean,
@@ -62,5 +63,21 @@ const onToogleMenu = () => {
   isOpen.value = !isOpen.value;
   console.log('isOpen', isOpen);
 };
+console.log('vdv', window.value);
+function handleResize() {
+      if (window.innerWidth < 768) {
+        isComponentVisible.value = false;
+      } else {
+        isComponentVisible.value = true;
+      }
+    }
+
+    onMounted(() => {
+      window.addEventListener('resize', handleResize);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+    });
 
 </script>

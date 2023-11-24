@@ -102,6 +102,23 @@ export const useCardsStore = defineStore("cards", () => {
       size: "60см X 40см X 30см",
       material: "100% эко-лоза",
     },
+    {
+      _id: "6502ce4867ccd9d6284e40f0",
+      productName: "елочная игрушка",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem portaLorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta",
+      articleNumber: 110,
+      pictureBig: [
+        "https://sun9-56.userapi.com/impg/TqRzTS77LzzJVuEH4RE_Z-9kz7DxspdXw0V_Qw/wwFHZKWV6Rg.jpg?size=1887x2160&quality=95&sign=d828b4a237021f0c2bfe60fde9c902aa&type=album",
+        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
+      ],
+      pictureSmall:
+        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
+      price: 600,
+      amount: 35,
+      size: "10см X 8см X 0,5см",
+      material: "100% эко-лоза",
+    },
   ]);
   const getCardById = (id: string) => {
     return cardsArray.value.find((card) => card._id === id);

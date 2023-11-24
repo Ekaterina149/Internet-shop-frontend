@@ -2,7 +2,7 @@
   <div
     id="dropdownNavbar"
     v-if="loggedin"
-    :class="{ hidden: !open }"
+    :class="{ 'hidden': !open }"
     class="z-40 absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 w-max"
   >
     <ul

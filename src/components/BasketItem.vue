@@ -12,7 +12,7 @@
           {{ ucFirst(item.productName) }}
         </h5> -->
 
-        <div class="flex flex-row gap-2 sm:gap-8 justify-between items-center">
+        <div class="flex flex-row flex-wrap gap-2 sm:gap-8 justify-between items-center">
           <img
             :src="item.pictureSmall"
             :alt="item.productName"

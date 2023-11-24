@@ -123,7 +123,11 @@
       
     </section>
     <h5 class="self-center  mt-12  mb-12 text-2xl md:text-3xl ">{{ "Описание" }}</h5>
-    <p class="bg-white box-border px-10 pb-10 self-stretch  text-justify">{{ currentCard.description }}</p>
+    <p class="bg-white box-border px-10 pb-10 self-stretch  text-justify">{{ (currentCard.description.length > 30) && !clicked ? currentCard.description.split(' ').slice(0,Math.trunc(currentCard.description.split(' ').length/4)).join(' ') + '...': currentCard.description   }}</p>
+    <!-- <a :class="{'text-red-900': clicked }"  @click="showDetails">
+
+      {{DetailsTextContent}}</a> -->
+    <ShowDetailsButton v-if="currentCard.description.length > 30" :class="{'underline': clicked, 'text-red-900': clicked }"  :clickedButton="clicked" @onclick="showDetails"/>
   </div>
 </template>
 <script setup>
@@ -134,19 +138,19 @@ import { mdiCartMinus } from "@mdi/js";
 import BasketButton from "../components/BasketButton.vue";
 import TobasketButton from "../components/TobasketButton.vue";
 import Carousel from "../components/Carousel.vue";
+import ShowDetailsButton from "../components/ShowDetailsButton.vue";
+const clicked = ref(false);
 const cardsStore = useCardsStore();
 const route = useRoute();
-// const count=useCounterStore();
-// count.increment();
-// count.increment();
-// count.increment();
-// console.log('hello', count.count);
 const currentCard = computed(() => cardsStore.getCardById(route.params.cardId));
 console.log(route.params.cardId);
  const onAddToBasket= () => {
   cardsStore.addBasketArray(route.params.cardId)
  } 
-
+ const showDetails = () => {
+  clicked.value =!clicked.value ;
+  
+ }
 function ucFirst(str) {
   if (!str) return str;
 

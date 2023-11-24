@@ -3,7 +3,9 @@
   <NavBar :isAccountOpen="isAccountOpen" :isLoggedin="isLoggedin" :onToogle="onToogle" class="grow-0"/>
   <main class="mt-0 flex flex-col justify-center items-center box-border px-2 sm:px-4 md:px-5 lg:px-24 grow">
   <RouterView />
+  
   </main>
+  <Footer/>
 </template>
 
 <script setup>
@@ -11,6 +13,7 @@ import { useDark } from "@vueuse/core";
 import { ref } from 'vue'
 import AccountPopup from '../components/AccountPopup.vue';
 import NavBar from '../components/NavBar.vue';
+import Footer from '../components/Footer.vue';
 
 const isAccountOpen = ref(false);
 const isLoggedin = ref(true);

@@ -56,12 +56,6 @@ const router = createRouter({
         //   component: ProfileView,
 
         // },
-      ],
-    },
-    {
-      path: "/",
-      component: () => import("../layouts/ProfileLayout.vue"),
-      children: [
         {
           path: "signup",
           name: "signup",
@@ -72,6 +66,13 @@ const router = createRouter({
           name: "profile",
           component: ProfileView,
         },
+      ],
+    },
+    {
+      path: "/",
+      component: () => import("../layouts/ProfileLayout.vue"),
+      children: [
+        
        
       ],
     },

@@ -1,9 +1,9 @@
 <template>
-    <form class="bg-white box-border p-10 rounded-lg flex flex-col gap-y-6" novalidate>
+    <form class="bg-white box-border p-10 rounded-lg flex flex-col gap-y-10 md:gap-y-14 w-full sm:w-[600px]" novalidate>
       <div class="relative z-0 w-full mb-6 group">
         <span
                     :class="{ 'hidden': !model.login.isInvalid }"
-                    class="absolute right-0 top-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute center-0  -bottom-10  md:center-0  md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
                   >
                     <span class="font-medium"> Ой! </span>
                    <template v-if="model.login.errors.required">Логин обязателен</template>
@@ -31,7 +31,7 @@
       <div class="relative z-0 w-full mb-6 group">
           <span
                     :class="{ 'hidden': !model.email.isInvalid }"
-                    class="absolute right-0 top-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute center-0  -bottom-10  md:center-0  md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
                   >
                     <span class="font-medium"> Ой! </span>
                    <template v-if="model.email.errors.required">email обязателен</template>
@@ -62,11 +62,11 @@
             >Email</label
         >
       </div>
-      <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
         <span
                     :class="[{ 'hidden': !model.password.isInvalid }, 'text-black']"
-                    class="absolute  right-0 top-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute center-0  -bottom-10  md:center-0  md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
                     ><span class="font-medium">Ой!
   
                     </span> 
@@ -93,7 +93,7 @@
       <div class="relative z-0 w-full mb-6 group">
         <span
                     :class="[{ 'hidden': !model.confirmPassword.isInvalid }, 'text-black']"
-                    class="absolute  right-0 top-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute  center-0  -bottom-10  md:center-0  md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
                     ><span class="font-medium">Ой!
   
                     </span> 
@@ -119,18 +119,18 @@
       </div>
       </div>
      
-      <div class="grid md:grid-cols-3 md:gap-6">
+      <div class="grid md:grid-cols-3 gap-10 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
           <span
                     :class="{ 'hidden': !model.name.isInvalid }"
-                    class="absolute right-0 -bottom-12 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute  center-0  -bottom-10  md:center-0  md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
                   >
                     <span class="font-medium"> Ой! </span>
-                   <template v-if="model.name.errors.required">Логин обязателен</template>
-                   <template v-else-if="model.name.errors.minLength"> Длина Вашего логина должна быть более 5-ти символов, а у Вас {{model.name.value.length}}</template>
-                   <template v-else-if="model.name.errors.maxLength"> Длина Вашего логина должна быть менее 24-ти символов, а у Вас {{model.name.value.length}}</template>
-                   <template v-else-if="model.name.errors.space"> Ваш  логин не должен  содержать пробелы </template>
-                   <template v-else-if="model.name.errors.pattern"> Ваш  логин должен  соответствовать  паттерну </template>
+                   <template v-if="model.name.errors.required">Имя обязателен</template>
+                   <template v-else-if="model.name.errors.minLength"> Длина Вашего имени должна быть более 5-ти символов</template>
+                   <template v-else-if="model.name.errors.maxLength"> Длина Вашего имени должна быть менее 24-ти символов, а у Вас {{model.name.value.length}}</template>
+                   <template v-else-if="model.name.errors.space"> Ваше  имя не должно  содержать пробелы </template>
+                   <template v-else-if="model.name.errors.pattern"> Ваше  имя должен  соответствовать  паттерну </template>
                   </span
                   >
           <input
@@ -151,12 +151,12 @@
         <div class="relative z-0 w-full mb-6 group">
           <span
                     :class="{ 'hidden': !model.fathersname.isInvalid }"
-                    class="absolute right-0 -bottom-12 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute center-0  -bottom-10  md:center-0  md:-bottom-14  mt-2 text-xs text-red-600 dark:text-red-400"
                   >
                     <span class="font-medium"> Ой! </span>
                    <template v-if="model.fathersname.errors.required">Отчество обязательно</template>
-                   <template v-else-if="model.fathersname.errors.minLength"> Длина Вашего отчества должна быть более 5-ти символов, а у Вас {{model.fathersname.value.length}}</template>
-                   <template v-else-if="model.fathersname.errors.maxLength"> Длина Вашего отчества должна быть менее 24-ти символов, а у Вас {{model.fathersname.value.length}}</template>
+                   <template v-else-if="model.fathersname.errors.minLength"> Длина Вашего отчества должна быть более 5-ти символов, </template>
+                   <template v-else-if="model.fathersname.errors.maxLength"> Длина Вашего отчества должна быть менее 24-ти символов</template>
                    <template v-else-if="model.fathersname.errors.space"> Ваше  отчество не должен  содержать пробелы </template>
                    <template v-else-if="model.fathersname.errors.pattern"> Ваше  отчество должен  соответствовать  паттерну </template>
                   </span
@@ -179,14 +179,14 @@
         <div class="relative z-0 w-full mb-6 group">
           <span
                     :class="{ 'hidden': !model.lastname.isInvalid }"
-                    class="absolute right-0 -bottom-12 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute center-0  -bottom-10  md:center-0  md:-bottom-14  mt-2 text-xs text-red-600 dark:text-red-400"
                   >
                     <span class="font-medium"> Ой! </span>
-                   <template v-if="model.lastname.errors.required">Отчество обязательно</template>
-                   <template v-else-if="model.lastname.errors.minLength"> Длина Вашего отчества должна быть более 5-ти символов, а у Вас {{model.lastname.value.length}}</template>
-                   <template v-else-if="model.lastname.errors.maxLength"> Длина Вашего отчества должна быть менее 24-ти символов, а у Вас {{model.lastname.value.length}}</template>
-                   <template v-else-if="model.lastname.errors.space"> Ваше  отчество не должен  содержать пробелы </template>
-                   <template v-else-if="model.lastname.errors.pattern"> Ваше  отчество должен  соответствовать  паттерну </template>
+                   <template v-if="model.lastname.errors.required">Фамилия обязательно</template>
+                   <template v-else-if="model.lastname.errors.minLength"> Длина Вашей фамилии должна быть более 5-ти символов</template>
+                   <template v-else-if="model.lastname.errors.maxLength"> Длина Вашей фамилии должна быть менее 24-ти символов</template>
+                   <template v-else-if="model.lastname.errors.space"> Ваша  фамилия не должен  содержать пробелы </template>
+                   <template v-else-if="model.lastname.errors.pattern"> Ваша  фамилия должен  соответствовать  паттерну </template>
                   </span
                   >
           <input
@@ -209,7 +209,7 @@
         <div class="relative z-0 w-full mb-6 group">
           <span
                     :class="[{ 'hidden': !model.phone.isInvalid }, 'text-black']"
-                    class="absolute  right-0 top-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                    class="absolute  center-0  -bottom-14  md:center-0  sm:-bottom-4 mt-2 text-xs text-red-600 dark:text-red-400"
                     ><span class="font-medium">Ой!
   
                     </span> 
