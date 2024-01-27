@@ -1,150 +1,269 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import {useLocalStorage} from "@vueuse/core";
+import { useLocalStorage } from "@vueuse/core";
+import { useUsersStore } from "./usersStore.ts";
+import { BASE_URL, SET_DATA_HEADERS, AUTH_DATA_HEADERS } from "../constants.ts";
+import type {user} from "./usersStore.ts";
+// import internal from "stream";
+
 
 interface card {
   _id: string;
   productName: string;
   description: string;
   articleNumber: number;
-  pictureBig: string [];
+  pictureBig: string[];
   pictureSmall: string;
   price: number;
   amount: number;
   size: string;
   material: string;
-};
+}
 
+interface cardWithQuantity {
+  _id: string;
+  productName: string;
+  description: string;
+  articleNumber: number;
+  pictureBig: string[];
+  pictureSmall: string;
+  price: number;
+  amount: number;
+  size: string;
+  material: string;
+  quantity: number;
+}
 
+ export interface errorResp  {
+  message: string
+}
+  type cardId=string [];
 
 export const useCardsStore = defineStore("cards", () => {
-  
-  const cardsArray = ref<card[]>([
-    {
-      _id: "650180920d7ae0668c58d70b",
-      productName: "сумка",
-      description: "Плетеная сумка ручной работы выделит Вас из толпы",
-      articleNumber: 3,
-      pictureBig: [
-        "https://sun9-70.userapi.com/impg/Xu9Z8YwcomRO65bqODMORANH9tfY_7EnYlCf6w/8juzr3ERgEU.jpg?size=1035x1270&quality=95&sign=47d6ed30b03ad252ea5b090e17b0b903&type=album",
-        "https://sun9-73.userapi.com/impg/Zgx0heKI9VnbaGKEdoJz28zHFjr5Eq-EN8nkYQ/zFBl4yEs0dE.jpg?size=786x1369&quality=95&sign=d0728a4f16b77cf3e481aa90665d4428&type=album",
-        "https://sun9-60.userapi.com/impg/WkIADTbw1gX6fjddCyNmwIwzN20qoM7TMTwgQQ/zIh3q_Dbqf8.jpg?size=1600x1487&quality=95&sign=991d038d32380df56748eb7d629c8767&type=album",
-      ],
-      pictureSmall:
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      price: 4000,
-      amount: 8,
-      size: "60см X 40см X 30см",
-      material: "100% эко-лоза",
-    },
-    {
-      _id: "650180c00d7ae0668c58d70d",
-      productName: "поднос",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.",
-      articleNumber: 11,
-      pictureBig: [
-        "https://sun9-56.userapi.com/impg/TqRzTS77LzzJVuEH4RE_Z-9kz7DxspdXw0V_Qw/wwFHZKWV6Rg.jpg?size=1887x2160&quality=95&sign=d828b4a237021f0c2bfe60fde9c902aa&type=album",
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      ],
-      pictureSmall:
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      price: 6300,
-      amount: 16,
-      size: "60см X 40см X 30см",
-      material: "100% эко-лоза",
-    },
-    {
-      _id: "6502ce4867ccd9d6284e40b0",
-      productName: "поднос",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem portaLorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta",
-      articleNumber: 11,
-      pictureBig: [
-        "https://sun9-56.userapi.com/impg/TqRzTS77LzzJVuEH4RE_Z-9kz7DxspdXw0V_Qw/wwFHZKWV6Rg.jpg?size=1887x2160&quality=95&sign=d828b4a237021f0c2bfe60fde9c902aa&type=album",
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      ],
-      pictureSmall:
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      price: 6300,
-      amount: 35,
-      size: "60см X 40см X 30см",
-      material: "100% эко-лоза",
-    },
-    {
-      _id: "65150651907588fe1b217d04",
-      productName: "корзина",
-      description: "Корзина для пикника",
-      articleNumber: 4,
-      pictureBig: [
-        "https://sun9-64.userapi.com/impg/ksjz5wGocKtXtsLBX1OGoVpUB93rnAFmCsTPvg/Dw7k5pX4JYM.jpg?size=1914x2160&quality=95&sign=f2aa7ab5ff393c8c1b06cfb386a7766e&type=album",
-      ],
-      pictureSmall:
-        "https://sun9-16.userapi.com/impg/2prJ4_cexYR_Xg04AcYClyUn7A8II_w4YXHlBQ/TfEQI-jT-yQ.jpg?size=1080x778&quality=95&sign=9412e01617b672874d5b2cb88e9d5a63&type=album",
-      price: 5500,
-      amount: 8,
-      size: "60см X 40см X 25см",
-      material: "100% эко-лоза",
-    },
-    {
-      _id: "65152448bd7fbbfe9fd3300a",
-      productName: "поднос",
-      description: "Небольшая поднос",
-      articleNumber: 14,
-      pictureBig: [
-        "https://sun9-56.userapi.com/impg/TqRzTS77LzzJVuEH4RE_Z-9kz7DxspdXw0V_Qw/wwFHZKWV6Rg.jpg?size=1887x2160&quality=95&sign=d828b4a237021f0c2bfe60fde9c902aa&type=album",
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      ],
-      pictureSmall:
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      price: 6300,
-      amount: 12,
-      size: "60см X 40см X 30см",
-      material: "100% эко-лоза",
-    },
-    {
-      _id: "6502ce4867ccd9d6284e40f0",
-      productName: "елочная игрушка",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem portaLorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla purus aliquet tellus aliquet eleifend. In hac habitasse platea dictumst. Donec enim elit, pharetra in velit sed, ornare vehicula lorem. Aenean pretium dui dolor, quis gravida quam condimentum a. Ut id sapien nec nunc feugiat eleifend id a libero. Suspendisse ac egestas ipsum, nec venenatis leo. Nam elementum dictum aliquet. Nunc ultricies, nunc vitae dictum congue, felis sapien lacinia nisl, in ultricies felis risus vel orci. Nam non efficitur neque, eu suscipit risus. Sed hendrerit ut turpis et tempor. Nam pretium, odio id volutpat rhoncus, est diam tincidunt enim, nec gravida lectus sem vitae nulla. Pellentesque aliquam turpis ut enim sagittis bibendum. Sed consectetur dui accumsan arcu molestie, vel tincidunt lorem porta",
-      articleNumber: 110,
-      pictureBig: [
-        "https://sun9-56.userapi.com/impg/TqRzTS77LzzJVuEH4RE_Z-9kz7DxspdXw0V_Qw/wwFHZKWV6Rg.jpg?size=1887x2160&quality=95&sign=d828b4a237021f0c2bfe60fde9c902aa&type=album",
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      ],
-      pictureSmall:
-        "https://sun9-37.userapi.com/impg/nIeWECDDWTvidj9QoMBVb3ARsc5jwbg52Tm_Kg/nmZGdIpdVsU.jpg?size=1689x2160&quality=95&sign=a63181aabd77bf83abe3387a9a23506e&type=album",
-      price: 600,
-      amount: 35,
-      size: "10см X 8см X 0,5см",
-      material: "100% эко-лоза",
-    },
-  ]);
+  const isError = reactive({
+    exist: false,
+    message: "",
+  });
+  const _checkRes = <T>(res: Response)=> {
+    return res.ok ? res.json() as Promise<T> : res.json().then((err) => Promise.reject(err));
+    
+  };
+    const userStore = useUsersStore();
+
+    
+
+    type userResp = user 
+
+  const getCards = () => {
+    return fetch(BASE_URL + "/cards", {
+      method: "GET",
+      credentials: "include",
+      headers: SET_DATA_HEADERS,
+    }).then((res) => _checkRes<card[]>(res));
+  };
+
+  const addToBasket = (cardId: string) => {
+    const href = BASE_URL + `/users/me/basket/${cardId}`;
+    return fetch(href,
+      {  method: 'PUT',
+        credentials: 'include',
+        headers:
+        AUTH_DATA_HEADERS,
+
+    })
+    .then((res) =>
+    _checkRes<userResp>(res)
+    );
+  };
+
+  const delFromBasket = (cardId: string)=> {
+    debugger;
+    const href = BASE_URL + `/users/me/basket/${cardId}`;
+    return fetch(href,
+      {  method: 'DELETE',
+        credentials: 'include',
+        headers:
+        AUTH_DATA_HEADERS,
+
+      })
+      .then((res) =>
+    _checkRes<userResp>(res)
+    );
+  };
+
+  const delSevFromBasket = (cards: cardId)=> {
+    debugger;
+    const href = BASE_URL + '/users/me/basket/cards';
+    return fetch(href,
+      {  method: 'PATCH',
+        credentials: 'include',
+        headers:
+        AUTH_DATA_HEADERS,
+        body: JSON.stringify({basket: cards}),
+ 
+      })
+      .then((res) =>
+    _checkRes<userResp>(res)
+    );
+  };
+
+  const cardsArray = ref<card[]>([]);
+  const fetchData = () => getCards().then((data: card[]) => (cardsArray.value = data));
+  fetchData();
   const getCardById = (id: string) => {
     return cardsArray.value.find((card) => card._id === id);
   };
 
-  const basketArray = useLocalStorage<card[]>('basket',[]);
-  const addBasketArray = (id: string) => { 
+  const basketArray = useLocalStorage<card[]>("basket", []);
+  let basketArrayWithQuantity = useLocalStorage<cardWithQuantity[]>("basketQuantity", []);
+  const updateBasketArrayWithQuantity = () => {
+    basketArrayWithQuantity.value = basketArray.value.reduce(
+      (acc: cardWithQuantity[], curr: card) => {
+        const existingIndex = acc.findIndex((item) => item._id === curr._id);
+        if (existingIndex !== -1) {
+          acc[existingIndex] = {
+            ...curr,
+            quantity: acc[existingIndex].quantity + 1,
+          };
+        } else {
+          acc.push({ ...curr, quantity: 1 });
+        }
+        return acc;
+      },
+      []
+    );
+  };
+  const countBasketSum = () => basketArray.value.reduce((sum, item) => sum + item.price, 0);
+  const basketSumm = ref<number>(countBasketSum());
+  const addBasketArray = (id: string) => {
     const card = getCardById(id);
-    if(card){
-      return basketArray.value.push(card);
-    }
-    
-  }
-  const removeBasketArray = (id:string) =>{
-   return basketArray.value=basketArray.value.filter((card)=> card._id!==id)
-  }
-
-  const removeOneItemBasketArray = (id:string) =>{
-      const cardToDelete = basketArray.value.find((card) => card._id===id);
-      if(cardToDelete){
-        basketArray.value.splice(basketArray.value.indexOf(cardToDelete), 1);
+    if(!userStore.isLoggedIn){
+      if (card) {
+        basketArray.value.push(card);
+        // basketSumm.value = countBasketSum();
+        // updateBasketArrayWithQuantity();
+        
       }
-       
-       return basketArray.value;
-   }
+    }
+    else {
+      addToBasket(id)
+      .then((user) => {
+        basketArray.value = user.basket;
+        userStore.user = user;
+        // Здесь также можно обновить basketSumm и вызов updateBasketArrayWithQuantity, если необходимо
+        debugger;
+        console.log("basket", user.basket );
+      })
+      .catch((err:errorResp ) => {
+        isError.exist= true;
+        isError.message=err.message;
+        console.log(err);
+      });
+    }
+    return basketArray.value;
+  };
+  const removeBasketArray = (id: string) => {
+    if(!userStore.isLoggedIn){
+      basketArray.value = basketArray.value.filter((card) => card._id !== id);
+      // basketSumm.value = countBasketSum();
+      // updateBasketArrayWithQuantity();
+    }
+    else{
+     ;
+      let basket =basketArray.value.filter((card) => card._id === id).map((card)=>card._id)
+      delSevFromBasket(basket)
+      .then((user) => {
+        basketArray.value = user.basket;
+        userStore.user = user;
+        // Здесь также можно обновить basketSumm и вызов updateBasketArrayWithQuantity, если необходимо
+        debugger;
+        console.log("basket", user.basket );
+      })
+      .catch((err:errorResp ) => {
+        isError.exist= true;
+        isError.message=err.message;
+        console.log(err);
+      });
+
+ 
+    }
    
+    return basketArray.value;
+  };
+
+  const removeOneItemBasketArray = (id: string) => {
+    const cardToDelete = basketArray.value.find((card) => card._id === id);
+    if(!userStore.isLoggedIn) {
+      if (cardToDelete) {
+        basketArray.value.splice(basketArray.value.indexOf(cardToDelete), 1);
+        // basketSumm.value = countBasketSum();
+        // updateBasketArrayWithQuantity();
+        return basketArray.value;
+    }
+
+    }
+    else {
+      delFromBasket(id)
+      .then((user) => {
+        debugger;
+        basketArray.value = user.basket;
+        userStore.user = user;
+        // Здесь также можно обновить basketSumm и вызов updateBasketArrayWithQuantity, если необходимо
+        debugger;
+        console.log("basket", user.basket );
+        return basketArray.value;
+      })
+      .catch((err:errorResp ) => {
+        isError.exist= true;
+        isError.message=err.message;
+        console.log(err);
+      });
+
+    }
+
+    
+  };
+  const clearBasket = () =>{ if(!userStore.isLoggedIn) {
+    basketArray.value.splice(0, basketArray.value.length);
+  }}
+
+  const fetchClearBasket = ():userResp=> {
+    
   
-  return { cardsArray, getCardById, addBasketArray, removeBasketArray, basketArray, removeOneItemBasketArray };
+   if(!userStore.isLoggedIn) {
+    clearBasket();
+  }
+  else { 
+    userStore.updateBasket([])
+    .then((user)=> { 
+      userStore.user = user;
+      basketArray.value = user.basket;
+    } )
+
+  }
+    return userStore.user;
+  } 
+  
+  watch(basketArray, () => {
+    updateBasketArrayWithQuantity();
+    basketSumm.value = countBasketSum();
+    console.log('basketArray');
+  }, {deep: true});
+
+  return {
+    cardsArray,
+    getCardById,
+    addBasketArray,
+    removeBasketArray,
+    basketArray,
+    removeOneItemBasketArray,
+    basketSumm,
+    basketArrayWithQuantity,
+    clearBasket,
+    getCards,
+    fetchData,
+    updateBasketArrayWithQuantity,
+    isError,
+    fetchClearBasket,
+  };
 });

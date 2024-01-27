@@ -1,6 +1,6 @@
 <template>
   <!-- <pre>{{ cardsStore.getCardById(route.params.cardId) }}</pre> -->
-  <div class=" shadow-lg  shadow-black flex flex-col box-border xl:pl-8 xl:pr-40 px-0 items-center justify-center h-full  w-full mt-10 bg-white rounded-xl ">
+  <div class=" shadow-lg  shadow-black flex flex-col box-border xl:pl-8 xl:pr-40 px-0 py-8 items-center justify-center h-full  w-full mt-10 bg-white rounded-xl ">
     <h5 class="self-center mt-12  mb-12 text-2xl md:text-3xl ">{{ ucFirst(currentCard.productName) }}</h5>
     <section class="flex flex-row  gap-x-1   md:gap-x-4 lg:gap-x-8 xl:gap-x-10 2xl:gap-x-40 w-full   flex-wrap justify-center">
       <Carousel

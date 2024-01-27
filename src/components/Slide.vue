@@ -11,7 +11,6 @@
  const props = defineProps({
   direction: String,
 });
-console.log("props", props.direction);
 const changeAnimationClass = computed( ()=> {
     if(props.direction ==='forward')
     return 'list-in'

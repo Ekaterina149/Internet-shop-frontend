@@ -1,7 +1,7 @@
 <template>
   <!-- Main modal -->
   <div
-    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-50 bg-zinc-600 bg-opacity-70"
+    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-40 bg-zinc-600 bg-opacity-70"
     :class="{ hidden: !open }"
   >
     <div
@@ -38,15 +38,8 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="px-6 py-6 lg:px-8 flex flex-col items-stretch">
-          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-            Войти в Аккаунт
-          </h3>
-          <form
-            class="space-y-20 flex flex-col"
-            action="#"
-            @submit.prevent="onRedirect"
-            noValidate
-          >
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Войти в Аккаунт</h3>
+          <form class="space-y-20 flex flex-col" action="#" @submit.prevent="onRedirect" noValidate>
             <div>
               <label
                 for="email"
@@ -66,11 +59,12 @@
                   class="absolute left-0 mt-2 text-xs text-red-600 dark:text-red-400"
                 >
                   <span class="font-medium"> Ой! </span>
-                 <template v-if="model.email.errors.required">email обязателен</template>
-                 <template v-else-if="model.email.errors.email"> Что-то не так с email</template>
-                 <template v-else-if="model.email.errors.conflict"> email занят</template>
-                </span
-                >
+                  <template v-if="model.email.errors.required">email обязателен</template>
+                  <template v-else-if="model.email.errors.email"> Что-то не так с email</template>
+                  <template v-else-if="model.email.errors.conflict"
+                    >Возможно такого email нет в базе</template
+                  >
+                </span>
               </label>
             </div>
             <div>
@@ -89,15 +83,17 @@
                 />
                 <span
                   :class="[{ hidden: !model.password.isInvalid }, 'text-black']"
-                  class="absolute  left-0 mt-2 text-xs text-red-600 dark:text-red-400"
-                  ><span class="font-medium">Ой!
-
-                  </span> 
+                  class="absolute left-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                  ><span class="font-medium">Ой! </span>
                   <template v-if="model.password.errors.required">пароль обязателен</template>
-                 <template v-else-if="model.password.errors.minLength"> Пароль должен быть не менее 4 символов, а у Вас сейчас {{ model.password.value.length }}</template>
-
-                  </span
-                >
+                  <template v-else-if="model.password.errors.minLength">
+                    Пароль должен быть не менее 4 символов, а у Вас сейчас
+                    {{ model.password.value.length }}</template
+                  >
+                  <template v-else-if="model.password.errors.conflict"
+                    >Возможно пароль не подходит</template
+                  >
+                </span>
               </label>
             </div>
             <!-- <div class="flex justify-between">
@@ -108,13 +104,12 @@
               >
             </div> -->
             <div class="relative">
-              <p
-                :class="{ hidden: !error }"
-                class="absolute bottom-14 m-0 left-0 w-full text-lg border-b-2 pb-1 border-red-600 text-red-600"
+              <!-- <p
+                :class="{ hidden: !model.email.errors.conflict || !model.password.errors.conflict }"
+                class="absolute bottom-14 m-0 left-0 w-full text-lg pb-1 border-red-600 text-red-600"
               >
-                <span class="font-medium">Ой!</span> Зарегистрируйтесь прежде
-                чем войти
-              </p>
+                <span class="font-medium">Ой!</span> Зарегистрируйтесь прежде чем войти
+              </p> -->
               <button
                 type="submit"
                 @onclick="onRedirect"
@@ -128,6 +123,7 @@
               Не Зарегистрированы?
               <RouterLink
                 to="/signup"
+                @click="onClose"
                 class="text-blue-700 hover:underline dark:text-blue-500 pl-3"
                 >Регистрация</RouterLink
               >
@@ -154,26 +150,67 @@ import {
   latin,
   numeric,
 } from "@/hooks/validator/index.ts";
-// import {useValidationStore} from "../stores/validation.js"
-// const { Joi } = require('joi');
+
 const props = defineProps({
   open: Boolean,
-  error: Boolean,
+  error: Object,
+  handleLogIn: Function,
+  user: Object,
+  handleUpdateBasket: Function,
+  basketArray: Array,
 });
 const isEmailError = ref(false);
 const isPasswordError = ref(false);
-const emit = defineEmits(["closeAccount"]);
+// const isError = ref(false);
+const emit = defineEmits(["closeAccount", "emit-error", "del-error", "get-user", "get-basket"]);
 const onClose = () => {
   emit("closeAccount");
+  emit("del-error");
 };
-// const { values, errors, isValid, setInitValues, handleChange, resetForm } = useValidationStore();
-// const emailSchema = Joi.string().email();
 
 const onRedirect = () => {
   // router.push({ name: "shop" });
   // onClose();
-  if(!model.checkValid()) return;
-  model.email.emitError('conflict')
+
+  if (!model.checkValid()) return;
+  props
+    .handleLogIn({ email: model.email.value, password: model.password.value })
+    .then((userData) => {
+      if (!props.basketArray.length) {
+        debugger;
+        emit("get-user", userData);
+
+        router.push({ name: "home" });
+        onClose();
+      } else {
+        const basket = props.basketArray.map((card) => card._id);
+        props.handleUpdateBasket(basket).then((data) => {
+          debugger;
+       
+          console.log("Количество карточек, равное нулю", data);
+          emit("get-basket", data.user.basket);
+          emit("get-user", data.user);
+          router.push({ path: "/shop" });
+          onClose();
+        })
+        .catch((err)=> {
+          emit("emit-error", err.message);
+          emit("get-basket", []);
+          router.push({ path: "/shop" });
+          
+        })
+      }
+      
+    })
+
+    .catch((err) => {
+      emit("emit-error", err.message);
+      console.log("error", err.message);
+      if (err.message === "Неправильные почта или пароль") {
+        model.email.emitError("conflict");
+        model.password.emitError("conflict");
+      }
+    });
 };
 
 const model = useForm({

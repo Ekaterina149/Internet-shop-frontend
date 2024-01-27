@@ -12,10 +12,10 @@
       <div class="px-8">
         <input type="checkbox" v-model="TrayCheckbox" id="cb2" /> <label for="cb2">Подносы</label>
       </div>
-      <div class="px-8">
+      <div v-if="props.bag" class="px-8">
         <input type="checkbox" v-model="BagCheckbox" id="cb3" /> <label for="cb3">Сумки</label>
       </div>
-      <div class="px-8">
+      <div  v-if="props.small" class="px-8">
         <input type="checkbox" v-model="SmallCheckbox" id="cb4" /> <label for="cb4">Всякая мелочь</label>
       </div>
       <div class="wrapper">
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import {ref, computed } from "vue";
+import {ref, computed, watch } from "vue";
 const props= defineProps({
     minPrice: Number,
     maxPrice: Number,
@@ -56,52 +56,87 @@ const props= defineProps({
     bagCheckbox: Boolean,
     smallCheckbox: Boolean,
     trayCheckbox: Boolean,
+    updatedMaxPrice: Number,
+    bag: Number,
+    small: Number,
 });
-const emit = defineEmits(["update:maxPrice", "update:minPrice"]);
+const emit = defineEmits(["update:max-price", "update:min-price", "update:bag-checkbox", "update:basket-checkbox", "update:tray-checkbox", "update:small-checkbox"]);
 
 const BasketCheckbox = computed({
   get: () => props.basketCheckbox,
   set: (value) => {
-    emit("update:basketCheckbox", value);
+    emit("update:basket-checkbox", value);
   },
 });
 
 const BagCheckbox = computed({
   get: () => props.bagCheckbox,
   set: (value) => {
-    emit("update:bagCheckbox", value);
+    emit("update:bag-checkbox", value);
   },
 });
 
 const TrayCheckbox = computed({
   get: () => props.trayCheckbox,
   set: (value) => {
-    emit("update:trayCheckbox", value);
+    emit("update:tray-checkbox", value);
   },
 });
 
 const SmallCheckbox = computed({
   get: () => props.smallCheckbox,
   set: (value) => {
-    emit("update:smallCheckbox", value);
+    emit("update:small-checkbox", value);
   },
 });
 
 const MinPrice = computed({
   get: () => props.minPrice,
   set: (value) => {
-    emit("update:minPrice", value);
+    if(value  >= props.startMinPrice)
+    emit("update:min-price", value);
+    else emit("update:min-price", props.startMinPrice);
   },
 });
 const MaxPrice = computed({
   get: () => props.maxPrice,
   set: (value) => {
+
+    if(value  <= props.startMaxPrice)
     emit("update:maxPrice", value);
+  else emit("update:maxPrice", props.startMaxPrice);
+  
   },
 });
-const minProcent = computed(() => ((props.minPrice-props.startMinPrice )*100/(props.startMaxPrice-props.startMinPrice))); 
-const maxProcent = computed(() => { return MaxPrice >props.startMaxPrice ?  0: ( (props.startMaxPrice-props.maxPrice)*100/(props.startMaxPrice-props.startMinPrice)  )}); 
+function convertRangeToPercent(value, min, max) {
+  return ((value - min) / (max - min)) * 100;}
+  const minProcent = ref(0);
+  const maxProcent =ref(0);
+const minProcentCount = () =>{ 
+  // debugger;
+  return MinPrice.value <= props.startMinPrice ? 0:convertRangeToPercent(props.minPrice, props.startMinPrice, props.startMaxPrice) }; 
+const maxProcentCount = () => { return MaxPrice.value >= props.startMaxPrice ?  0: ( (props.startMaxPrice-props.maxPrice)*100/(props.startMaxPrice-props.startMinPrice)  )}; 
+console.log('MaxPrice', MaxPrice);
+watch([()=>props.startMaxPrice, ()=>props.minPrice, ()=>props.maxPrice, ()=>props.minPrice  ], () => {
 
+  
+  // debugger;
+  // MaxPrice.value = props.startMaxPrice;
+  // MinPrice.value = props.startMinPrice;
+  maxProcent.value = maxProcentCount();
+  minProcent.value= minProcentCount();
+} );
+// watchEffect( () => {
+// if( props.minPrice !==  props.startMinPrice ){
+//   console.log("watchMinPrice");
+// debugger;
+// // MaxPrice.value = props.startMaxPrice;
+// // MinPrice.value = props.startMinPrice;
+// maxProcent.value = maxProcentCount();
+// minProcent.value= minProcentCount();
+// }
+
+// } );
 </script>
 
 

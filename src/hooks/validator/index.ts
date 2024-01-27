@@ -91,6 +91,3 @@ export function latin(value: string) {
 export function numeric(value: string) {
   return !/^[0-9]+$/.test(value);
 }
-
-
-

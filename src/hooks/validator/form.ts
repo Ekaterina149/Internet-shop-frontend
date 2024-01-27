@@ -1,20 +1,16 @@
 import { useField, type FieldOptions, type UseFieldType } from "./field";
 
-export type FormType<T extends Record<string, FieldOptions<any, any>>> = ReturnType<
-  typeof useForm<T, any>
->;
+export type FormType<T extends Record<string, FieldOptions<any, any>>> = ReturnType<typeof useForm<T, any>>;
 
 type FieldsType<T extends Record<string, FieldOptions<any, any>>> = {
   [K in keyof T]: UseFieldType<T[K]["initialValue"], FieldsType<T>>;
 };
 
-export function useForm<T extends Record<string, FieldOptions<any, any>>, K extends FieldsType<T>>(
-  initialFields: T
-) {
+export function useForm<T extends Record<string, FieldOptions<any, any>>, K extends FieldsType<T>>(initialFields: T) {
   const fields = reactive<K>({} as any);
 
   Object.entries(initialFields).forEach(([key, field]) => {
-    (fields[key] as any) = useField(field, fields);
+    (fields as any)[key] = useField(field, fields);
   });
   /**
    * Checks if the fields are valid.
@@ -29,5 +25,16 @@ export function useForm<T extends Record<string, FieldOptions<any, any>>, K exte
     }
     return !isInvalid;
   }
-  return { ...fields, checkValid };
+
+  /**
+   * Resets the fields.
+   */
+  function reset() {
+    for (const field of Object.values(fields)) {
+      field.reset();
+     
+    }
+  }
+
+  return { ...fields, checkValid, reset };
 }

@@ -1,18 +1,5 @@
 <template>
-    <ul
-      v-if="cardsStore.basketArray.length"
-      class="w-full flex flex-col items-center gap-y-3"
-    >
-      <li
-        v-for="item in basketArrayWithQuantity"
-        :key="basketArrayWithQuantity._id"
-        class="flex flex-col justify-start rounded-xl px-2 pt-2 sm:px-10 sm:py-2 box-border bg-white max-w-[1000px] grow w-full"
-      >
-        <!-- <h5 class="w-full self-start font-bold text-left pb-4 text-xl">
-          {{ ucFirst(item.productName) }}
-        </h5> -->
-
-        <div class="flex flex-row flex-wrap gap-2 sm:gap-8 justify-between items-center">
+    <div class="flex flex-row flex-wrap gap-2 sm:gap-8 justify-between items-center">
           <img
             :src="item.pictureSmall"
             :alt="item.productName"
@@ -25,17 +12,17 @@
               <span class="grow">{{ ucFirst(item.productName) }}</span>
 
               <div class="grow flex flex-row justify-end">
-                <BasketItemButton
+                <BasketItemButton v-if="isBasket"
                   itemCount="+"
-                  @click="cardsStore.addBasketArray(item._id)"
+                  @clickItemButton="()=>addOneItem(item._id)"
                 />
                 <p class="shrink-0 mx-2">
                   {{ item.quantity + " " + "шт." }}
                 </p>
 
-                <BasketItemButton
+                <BasketItemButton v-if="isBasket"
                   itemCount="-"
-                  @click="cardsStore.removeOneItemBasketArray(item._id)"
+                  @clickItemButton="()=>removeOneItem(item._id)"
                 />
               </div>
               <span class="grow text-right font-bold md:text-xl text-base"
@@ -63,31 +50,22 @@
 
           <!-- <p class="inline-block">Количество{{   ' '+ item.quantity + ' ' }} шт.</p> -->
         </div>
-        <BasketRemoveItemButton
+        <BasketRemoveItemButton v-if="isBasket"
           text="Удалить"
-          @click="cardsStore.removeBasketArray(item._id)"
+          @clickCard="()=>removeItem(item._id)"
         />
-      </li>
-    </ul>
-    <h5 class="grow" v-else>Ваша корзина пуста</h5>
 </template>
 <script setup>
-import { useCardsStore } from "../stores/cardsStore.ts";
-import BasketItemButton from "./BasketItemButton.vue";
+import { defineProps } from 'vue';
 import BasketRemoveItemButton from "./BasketRemoveItemButton.vue";
-const cardsStore = useCardsStore();
-const basketArrayWithQuantity = computed(() =>
-  cardsStore.basketArray.reduce((acc, curr) => {
-    const existingItem = acc.find((item) => item._id === curr._id);
-    if (existingItem) {
-      // eslint-disable-next-line no-plusplus
-      existingItem.quantity++;
-    } else {
-      acc.push({ ...curr, quantity: 1 });
-    }
-    return acc;
-  }, [])
-);
+import BasketItemButton from "./BasketItemButton.vue";
+const props= defineProps({
+    removeItem: Function,
+    item: Object,
+    removeOneItem: Function,
+    addOneItem: Function,
+    isBasket: Boolean,
+});
 function ucFirst(str) {
   if (!str) return str;
 

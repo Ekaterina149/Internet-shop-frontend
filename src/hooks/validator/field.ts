@@ -17,18 +17,12 @@ export type InitialFn<M extends AnyObject> = (
  * @param value
  * @return boolean true for invalid, false for valid
  */
-export type ValidationFn<T, M extends AnyObject> = (
-  value: UnwrapRef<T>,
-  fiels: FormType<M>
-) => MaybePromise<boolean>;
+export type ValidationFn<T, M extends AnyObject> = (value: UnwrapRef<T>, fiels: FormType<M>) => MaybePromise<boolean>;
 export type ValidationObj<T, M extends AnyObject> = {
   initial: InitialFn<M>;
   check: ValidationFn<T, M>;
 };
-export type ValidationRecord<T, M extends AnyObject> = Record<
-  keyof M,
-  ValidationFn<T, M> | ValidationObj<T, M>
->;
+export type ValidationRecord<T, M extends AnyObject> = Record<keyof M, ValidationFn<T, M> | ValidationObj<T, M>>;
 export type ValidationErrors = Record<string, boolean>;
 export type UseFieldType<T, K extends AnyObject> = ReturnType<typeof useField<T, K>>;
 
@@ -44,7 +38,7 @@ function isFn(val: any): val is Function {
 /**
  * Value hook watch changes in the input field and update the error
  */
-export function useField<T, K extends AnyObject>(
+export function useField<T = string, K extends AnyObject = {}>(
   { initialValue, validators }: FieldOptions<T, K>,
   fields: K
 ) {
@@ -58,9 +52,7 @@ export function useField<T, K extends AnyObject>(
     for (const key in errors) errors[key] = false;
 
     for (const [key, validator] of Object.entries(validators)) {
-      const result = isFn(validator)
-        ? validator(value.value, fields)
-        : validator.check(value.value, fields);
+      const result = isFn(validator) ? validator(value.value, fields) : validator.check(value.value, fields);
 
       if (result) isValidValue = result;
       errors[key] = result;
@@ -69,7 +61,7 @@ export function useField<T, K extends AnyObject>(
 
     isChanged.value = true;
   }
-  watch(value, check);
+  let unwatch = watch(value, check);
 
   Object.values(validators).forEach((validator) => {
     if (!isFn(validator)) validator.initial({ value, check }, fields);
@@ -80,5 +72,14 @@ export function useField<T, K extends AnyObject>(
     isInvalid.value = true;
   }
 
-  return { value, errors, isInvalid, isChanged, check, emitError };
+  function reset() {
+    unwatch();
+    value.value = toValue(initialValue) as any;
+    for (const key in errors) errors[key] = false;
+    isInvalid.value = false;
+    isChanged.value = false;
+    unwatch = watch(value, check);
+  }
+
+  return { value, errors, isInvalid, isChanged, check, emitError, reset };
 }

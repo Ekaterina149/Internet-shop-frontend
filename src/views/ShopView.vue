@@ -1,8 +1,9 @@
 <template>
   <section
-    class="flex flex-row gap-3 w-max max-w-[320px] pt-8 flex-wrap items-center justify-center"
+    class="flex flex-row gap-3 w-max max-w-[320px] sm:max-w-fit pt-8 flex-wrap items-center justify-center"
   >
     <FormFilterCards
+    class=""
       :minPrice="filters.minPrice"
       :maxPrice="filters.maxPrice"
       :startMinPrice="startMinPrice"
@@ -11,12 +12,15 @@
       :bagCheckbox="filters.isBag"
       :trayCheckbox="filters.isTray"
       :smallCheckbox="filters.isSmall"
-      @update:maxPrice="(value) => (filters.maxPrice = parseInt(value))"
-      @update:minPrice="(value) => (filters.minPrice = parseInt(value))"
-      @update:basketCheckbox="(value) => (filters.isBasket = value)"
-      @update:bagCheckbox="(value) => (filters.isBag = value)"
-      @update:smallCheckbox="(value) => (filters.isSmall = value)"
-      @update:trayCheckbox="(value) => (filters.isTray = value)"
+      :bag="cardsStore.cardsArray.filter((card) => card.productName.includes('сум')).length"
+      :small="cardsStore.cardsArray.filter((card) => card.price<=800).length"
+      @update:max-price="onUpdateMaxPrice"
+      @update:min-price="onUpdateMinPrice"
+      @update:basket-checkbox="(value) => (filters.isBasket = value)"
+      @update:bag-checkbox="(value) => (filters.isBag = value)"
+      @update:small-checkbox="(value) => (filters.isSmall = value)"
+      @update:tray-checkbox="(value) => (filters.isTray = value)"
+      
     />
     <ul
       class="grid grid-cols-[320px] auto-rows-auto md:grid-cols-[320px_320px] xl:grid-cols-[320px_320px_320px] gap-3"
@@ -26,30 +30,17 @@
       </li>
     </ul>
   </section>
-
-  <!-- <Card :images="cardsArray[0].pictureBig" :productName="cardsArray[0].productName" :description="cardsArray[0].description" :price="cardsArray[0].price"/> -->
 </template>
 <script setup>
 import Card from "../components/Card.vue";
 import { useCardsStore } from "../stores/cardsStore.ts";
-import { ref, computed } from "vue";
+import { ref, computed,reactive, watch } from "vue";
 import FormFilterCards from "../components/FormFilterCards.vue";
 const cardsStore = useCardsStore();
-
 const filters = reactive({
   isBasket: false,
-  minPrice: parseInt(
-    Math.min.apply(
-      null,
-      cardsStore.cardsArray.map((element) => element.price)
-    )
-  ),
-  maxPrice: parseInt(
-    Math.max.apply(
-      null,
-      cardsStore.cardsArray.map((element) => element.price)
-    )
-  ),
+  minPrice: 0,
+  maxPrice: 0,
   isBag: false,
   isTray: false,
   isSmall: false,
@@ -67,16 +58,14 @@ const filterFunctions = {
   isSmall: (value, filter) => filter ? value.price <= 800 : false,
 };
 
+const filteredCards =ref([]);
 
-
-const filteredCards = computed(() => {
+const filterCards = 
+() => {
   const filterkeys = Object.keys(filters);
    const filteredArray =  cardsStore.cardsArray.filter((item) => {
+   
     
-    let passBasket = true;
-    let passBag = true;
-    let passTray = true;
-    let passSmall = true;
     let pass={
       isBasket: true,
       isBag: true,
@@ -91,18 +80,42 @@ const filteredCards = computed(() => {
 
     });
     
-      if(!filters.isBag && !filters.isBasket && !filters.isTray && !filters.isSmall) return (pass.minPrice && pass.maxPrice) ;
-    return (pass.isBasket || pass.isTray || pass.isBag || pass.isSmall) && (pass.minPrice && pass.maxPrice)  ; 
+      if(!filters.isBag && !filters.isBasket && !filters.isTray && !filters.isSmall) return (pass.minPrice && pass.maxPrice ) ;
+    return (pass.isBasket || pass.isTray || pass.isBag || pass.isSmall) && (pass.minPrice && pass.maxPrice ); 
+    
   });
 
   
    return filteredArray;
-});
-
+ 
+};
+ const onUpdateMaxPrice =(value)=> {
+//  debugger;
+  return filters.maxPrice = parseInt(value)
+ };
+ const onUpdateMinPrice =(value)=> (filters.minPrice = parseInt(value)
+ );
 console.log("minPrice", filters.minPrice);
 console.log("maxPrice", filters.maxPrice);
-const startMinPrice = filters.minPrice;
-const startMaxPrice = filters.maxPrice;
-
-
+const startMinPrice = ref(4000);
+const startMaxPrice = ref(6300);
+watch(()=>cardsStore.cardsArray,() => {
+  // debugger;
+  
+    filters.minPrice = Math.min(...cardsStore.cardsArray.map(card => card.price));
+    filters.maxPrice = Math.max(...cardsStore.cardsArray.map(card => card.price));
+    startMinPrice.value = filters.minPrice;
+  
+    startMaxPrice.value= filters.maxPrice;
+    filteredCards.value = filterCards();
+});
+watch([ ()=>filters.minPrice, ()=>filters.maxPrice, ()=>filters.isBasket, ()=>filters.isTray  ], ()=>{
+  // debugger;
+  filteredCards.value = filterCards();
+});
+onMounted(()=>{
+  filters.minPrice = Math.min(...cardsStore.cardsArray.map(card => card.price));
+    filters.maxPrice = Math.max(...cardsStore.cardsArray.map(card => card.price));
+    filteredCards.value = filterCards();
+})
 </script>
