@@ -1,40 +1,23 @@
-# app
+### `Магазин изделий из лозы. Frontend`
 
-This template should help get you started developing with Vue 3 in Vite.
+**Мой pet проект**
 
-## Recommended IDE Setup
+## Описание проекта
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Проект представляет собой сайт интернет магазина изделий из эко-лозы.
+В проекте используются технологии: Node.js + Yarn(1.22.19) как пакетные менеджеры, Vite (4.3.9) как сборщик проекта,  Vue3.js (Composition API) как базовый фреймворк, Pinia (2.1.3) как глобальное хранилище, верстка - Tailwind.css (3.3.0), , базовая логика написана на TypeScript(5) (внутри Storage) и на JavaScript .    
+Для роутинга используется Vue-Router.Для отображения svg иконок используется библиотеки @jamescoyle/vue-icon, @mdi/js. Для работы с LocalStorage - VueUse.
 
-## Type Support for `.vue` Imports in TS
+## Системные требования
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+Для работы проекта нужно установить версию Node.js 18.17 или более позднюю, либо установить Yarn 1.22.19.
+Операционная система на вашем компьютере должна быть macOS, Windows (включая WSL), или Linux.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## Установка и запуск проекта
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-yarn
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-yarn dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-yarn build
-```
+- Установите зависимости командой `npm i` или `yarn install`
+- Запуск в режиме разработки `vite --host`
+  По умолчанию в режиме разработки приложение запустится на порту 3000 (http://localhost:3000).
+- Запуск проверки типов режиме сборки в продакшен`run-p type-check build-only`
+- Сборка проекта в продакшен с предварительной очисткой директории dist` vite build --emptyOutDir`
+- Запуск проверки типов, используя файл настроек tsconfig.app.json, режим composite  отключен `vue-tsc --noEmit -p tsconfig.app.json --composite false`
