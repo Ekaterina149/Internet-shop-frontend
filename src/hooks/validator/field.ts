@@ -73,6 +73,7 @@ export function useField<T = string, K extends AnyObject = {}>(
   }
 
   function reset() {
+    debugger;
     unwatch();
     value.value = toValue(initialValue) as any;
     for (const key in errors) errors[key] = false;

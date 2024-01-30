@@ -35,27 +35,27 @@
         </div>
         <div   class="relative z-0 w-full mb-6 group">
           <span
-            :class="[{ hidden: !model.confirmPassword.isInvalid }, 'text-black']"
+            :class="[{ hidden: !model.newPassword.isInvalid }, 'text-black']"
             class="absolute center-0 -bottom-10 md:center-0 md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
             ><span class="font-medium">Ой! </span>
-            <template v-if="model.confirmPassword.errors.required">пароль обязателен</template>
-            <template v-else-if="model.confirmPassword.errors.confirm">
-              Пароль не совпадает {{ model.confirmPassword.value }}</template
+            <template v-if="model.newPassword.errors.required">пароль обязателен</template>
+            <template v-else-if="model.newPassword.errors.newPassword">
+              Пароль  совпадает {{ model.newPassword.value }}</template
             >
           </span>
           <input
             type="password"
-            name="confirmPassword"
-            id="floating_ confirmPassword"
+            name="newPassword"
+            id="floating_ newPassword"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-red-900 peer"
             placeholder=" "
             required
-            v-model="model.confirmPassword.value"
+            v-model="model.newPassword.value"
           />
           <label
-            for="floating_confirmPassword"
+            for="floating_newPassword"
             class="peer-focus:font-medium absolute text-sm text-stone-700 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-red-900 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Подтверждение пароля</label
+            >Новый пароль</label
           >
         </div>
       </div>
@@ -68,8 +68,13 @@
       </button>
     </form>
     <ErrorPopup
-      :open="userDataTheSame || fetchDataError.exist"
-      :message="fetchDataError.exist ? fetchDataError.message : props.message"
+      :open="fetchDataError.exist"
+      :message="fetchDataError.message"
+      @onSub="onClose"
+    />
+    <ErrorPopup
+      :open="fetchDataPassword.exist"
+      :message="fetchDataPassword.message"
       @onSub="onClose"
     />
   </template>
@@ -84,19 +89,7 @@
     message: String,
     handleSubmit: Function,
   });
-  const currentUserEqualField = computed(() => {
-    const currentUser = props.user;
-    return {
-      login: currentUser.name,
-      email: currentUser.email,
-      name: currentUser.customerName,
-      fathersname: currentUser.customerFathersName,
-      lastname: currentUser.customerSurName,
-      phone: currentUser.phone,
-    };
-  });
   
-  console.log("currentUserEqualField.value", currentUserEqualField.value);
   
   import {
     email,
@@ -106,17 +99,21 @@
     useForm,
     space,
     equal,
+    notEqual,
     firstLetter,
     latin,
     numeric,
     pattern,
   } from "../hooks/validator/index.ts";
-  const userDataTheSame = ref();
+  // const userDataTheSame = ref();
   const fetchDataError = reactive({
     exist: false,
     message: "",
   });
-  const emit = defineEmits(["user-data-change"]);
+  const fetchDataPassword = reactive({
+    exist: false,
+    message: "",
+  });
   const model = useForm({
     password: {
       initialValue: "",
@@ -126,56 +123,51 @@
         maxLength: maxLength(32),
         space,
       },
+      
     },
-    confirmPassword: {
-      initialValue: "",
-      validators: {
-        required,
-        confirm: equal("password"),
-      },
+    newPassword: {
+    initialValue: "",
+    validators: {
+      required,
+      newPassword: notEqual("password"),
+      minLength: minLength(4),
+      maxLength: maxLength(32),
     },
+      
+    },
+   
   });
   console.log("model", model);
   
   
   
-  watch(props.user, (user) => {
-    console.log("watch", user);
-    const keys = Object.keys(currentUserEqualField.value);
-    // currentUserEqualField.value.login = user.name;
-    // currentUserEqualField.value.email = user.email;
-    // currentUserEqualField.value.name = user.customerName;
-    // currentUserEqualField.value.fathersname = user.customerFathersName;
-    // currentUserEqualField.value.lastname = user.customerSurName;
-    // currentUserEqualField.value.phone = user.phone;
-  
-    keys.forEach((key) => {
-      model[key].value = currentUserEqualField.value[key].toString();
-    });
-  });
+ 
   const onClose = () => {
-    userDataTheSame.value = false;
     fetchDataError.exist = false;
     fetchDataError.message = "";
+    fetchDataPassword.exist = false;
+    fetchDataPassword.message = "";
   };
   
   const onSubmit = () => {
     model.checkValid();
       props
       .handleSubmit({
-        name: model.login.value,
-        email: model.email.value,
-        customerName: model.name.value,
-        customerSurName: model.lastname.value,
-        customerFathersName: model.fathersname.value,
-        phone: model.phone.value,
+        password: model.password.value
+        , 
+        newPassword: model.newPassword.value
       })
       .then((data) => {
-        emit("user-data-change", data);
+        fetchDataPassword.exist=true;
+        fetchDataPassword.message = "Ваш пароль успешно заменен";
+        debugger;
+        model.reset();
+        
         if (!props.profile) debugger;
         router.push({ name: "home" });
       })
       .catch((err) => {
+        model.reset();
         fetchDataError.exist = true;
         fetchDataError.message = err.message;
       });

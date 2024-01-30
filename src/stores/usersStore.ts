@@ -313,9 +313,9 @@ export const useUsersStore = defineStore("user", () => {
 
    const changePassword = ({ password, newPassword }: passwordObj) => {
    
-    const href = BASE_URL + "/users/me";
+    const href = BASE_URL + "/users/me/password";
     return fetch(href,
-      {  method: 'PATCH',
+      {  method: 'POST',
         credentials: 'include',
         headers:
         AUTH_DATA_HEADERS,

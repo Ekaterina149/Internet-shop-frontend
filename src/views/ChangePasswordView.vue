@@ -1,5 +1,5 @@
 <template>
-    <ChangePasswordForm :user="user.user" :profile="profile"   :handleSubmit="user.updateUserInfo"
+    <ChangePasswordForm :user="user.user" :profile="profile"   :handleSubmit="user.changePassword"
    
          />
   </template>

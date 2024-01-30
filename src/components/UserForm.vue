@@ -451,6 +451,7 @@ const onSubmit = () => {
       customerSurName: model.lastname.value,
       customerFathersName: model.fathersname.value,
       phone: model.phone.value,
+      password:  model.password.value && model.password.value,
     })
     .then((data) => {
       emit("user-data-change", data);

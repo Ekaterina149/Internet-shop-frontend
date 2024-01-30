@@ -80,6 +80,13 @@ export function equal<T>(key: keyof T): ValidationObj<T, any> {
   };
 }
 
+export function notEqual<T>(key: keyof T): ValidationObj<T, any> {
+  return {
+    initial: ({ check }, fields) => watch(fields[key], () => check()),
+    check: (value, model) => value === model[key].value,
+  };
+}
+
 export function firstLetter(value: string) {
   return /^[a-zA-Z]$/.test(value);
 }
