@@ -52,10 +52,12 @@ declare global {
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useCardsStore: typeof import('./stores/cardsStore')['useCardsStore']
   const useCounterStore: typeof import('./stores/counter')['useCounterStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useSlots: typeof import('vue')['useSlots']
+  const useUsersStore: typeof import('./stores/usersStore')['useUsersStore']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
@@ -118,10 +120,12 @@ declare module 'vue' {
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useCardsStore: UnwrapRef<typeof import('./stores/cardsStore')['useCardsStore']>
     readonly useCounterStore: UnwrapRef<typeof import('./stores/counter')['useCounterStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useUsersStore: UnwrapRef<typeof import('./stores/usersStore')['useUsersStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
@@ -178,10 +182,12 @@ declare module '@vue/runtime-core' {
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useCardsStore: UnwrapRef<typeof import('./stores/cardsStore')['useCardsStore']>
     readonly useCounterStore: UnwrapRef<typeof import('./stores/counter')['useCounterStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useUsersStore: UnwrapRef<typeof import('./stores/usersStore')['useUsersStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

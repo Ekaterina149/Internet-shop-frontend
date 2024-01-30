@@ -5,7 +5,7 @@
     @click="onToogle"
   >
     Аккаунт
-    <svg
+    <!-- <svg
       v-if="loggedin"
       class="w-2.5 h-2.5 ml-2.5 inline-block"
       aria-hidden="true"
@@ -20,7 +20,7 @@
         stroke-width="2"
         d="m1 1 4 4 4-4"
       />
-    </svg>
+    </svg> -->
     <SvgIcon
       type="mdi"
       h="h-full"
@@ -29,6 +29,7 @@
       :path="mdiAccount"
       class="inline-block"
     />
+    <slot></slot>
   </button>
 </template>
 <script setup>

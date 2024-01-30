@@ -1,11 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import AboutView from "../views/AboutView.vue";
-import ShopView from "../views/ShopView.vue";    
-import RegisterView from "../views/RegisterView.vue";
-import ProfileView from "../views/PofileView.vue";
-import BasketView from "../views/BasketView.vue";
-import OrdersView from "../views/OrdersView.vue";
+import { authBeforeMiddleware } from "./auth";
+
 
 
 const router = createRouter({
@@ -18,29 +13,57 @@ const router = createRouter({
         {
           path: "",
           name: "home",
-          component: HomeView,
-         
+          component: () => import("../views/HomeView.vue"),
         },
         {
           path: "about",
           name: "about",
-          component: AboutView,
+          component: () => import("../views/AboutView.vue"),
         },
         {
           path: "shop",
           name: "shop",
-          component: ShopView,
+          component: ()=> import("../views/ShopView.vue"),
         },
         {
           path: "basket",
           name: "basket",
-          component: BasketView,
+          component: () => import("../views/BasketView.vue"),
         },
         {
           path: "orders",
           name:"orders",
-          component: OrdersView,
+          component: ()=> import("../views/OrdersView.vue"),
+          meta: {requiresAuth: true}
 
+        },
+        {
+          path: "card/:cardId",
+          name:"cards",
+          component: ()=> import("../views/CardView.vue"),
+
+        },
+        // {
+        //   path: "profile",
+        //   name:"profile",
+        //   component: ProfileView,
+
+        // },
+        {
+          path: "signup",
+          name: "signup",
+          component: ()=>import("../views/RegisterView.vue"),
+        },
+        {
+          path: "profile",
+          name: "profile",
+          component: () => import("../views/PofileView.vue"),
+          meta: {requiresAuth: true}
+        },
+        {
+          path: "change-password",
+          name: "password",
+          component: () => import("../views/ChangePasswordView.vue"),
         },
       ],
     },
@@ -48,16 +71,7 @@ const router = createRouter({
       path: "/",
       component: () => import("../layouts/ProfileLayout.vue"),
       children: [
-        {
-          path: "signup",
-          name: "signup",
-          component: RegisterView,
-        },
-        {
-          path: "profile",
-          name: "profile",
-          component: ProfileView,
-        },
+        
        
       ],
     },
@@ -68,5 +82,5 @@ const router = createRouter({
     },
   ],
 });
-
+router.beforeEach(authBeforeMiddleware);
 export default router;

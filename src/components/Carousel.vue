@@ -4,7 +4,7 @@
     @mouseenter.stop="handleStop"
     @mouseleave.stop="handleGo"
   >
-    <slot name="slide" :currentIndex="currentIndex"></slot>
+    <slot name="slide" :currentIndex="currentIndex" :direction="direction" ></slot>
     <slot name="routerLink"></slot>
     <div class="swipe_dian">
       <span
@@ -84,9 +84,10 @@ const control = ref(false);
  * Запустить карусель
  */
 function handleGo() {
+  control.value = false;
   if (!props.repeat) return;
 
-  control.value = false;
+ 
   timer = setTimeout(() => {
     currentIndex.value++;
     if (currentIndex.value > props.images.length - 1) currentIndex.value = 0;
@@ -108,15 +109,14 @@ function handleStop() {
  * @param index
  */
 function handleChange(index, dir = "forward") {
-  // debugger;
   direction.value = dir;
   currentIndex.value = index;
   console.log('направление',direction.value);
 }
 
-// onMounted(() => {
-//   if (props.autoplay) handleGo();
-// });
+onMounted(() => {
+  if (props.autoplay) handleGo();
+});
 </script>
 <style>
 /* .carousel_swipe {

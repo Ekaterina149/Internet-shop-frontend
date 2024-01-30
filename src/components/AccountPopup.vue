@@ -1,8 +1,8 @@
 <template>
   <!-- Main modal -->
   <div
-    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-50 bg-zinc-600 bg-opacity-70"
-    :class="{ 'hidden': !open }"
+    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-40 bg-zinc-600 bg-opacity-70"
+    :class="{ hidden: !open }"
   >
     <div
       id="authentication-modal"
@@ -38,48 +38,63 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="px-6 py-6 lg:px-8 flex flex-col items-stretch">
-          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-            Войти в Аккаунт
-          </h3>
-          <form
-            class="space-y-20 flex flex-col"
-            action="#"
-            @submit.prevent="onRedirect"
-          >
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Войти в Аккаунт</h3>
+          <form class="space-y-20 flex flex-col" action="#" @submit.prevent="onRedirect" noValidate>
             <div>
               <label
                 for="email"
                 class="block relative mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >email
-              <input
-                type="email"
-                name="email"
-                id="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="name@company.com"
-                required
-              />
-              <span :class="{ 'hidden': !isEmailError }"
-    class="absolute bottom--1 left-0 mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Ой!</span> Email странный.</span>
-              </label
-              >
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  placeholder="name@company.com"
+                  required
+                  v-model="model.email.value"
+                />
+                <span
+                  :class="{ hidden: !model.email.isInvalid }"
+                  class="absolute left-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                >
+                  <span class="font-medium"> Ой! </span>
+                  <template v-if="model.email.errors.required">email обязателен</template>
+                  <template v-else-if="model.email.errors.email"> Что-то не так с email</template>
+                  <template v-else-if="model.email.errors.conflict"
+                    >Возможно такого email нет в базе</template
+                  >
+                </span>
+              </label>
             </div>
             <div>
               <label
                 for="password"
                 class="relative block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Пароль
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="••••••••"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                required
-              />
-              <span :class="{ 'hidden': !isPasswordError }" class="absolute bottom--1 left-0 mt-2 text-xs text-red-600 dark:text-red-400"><span class="font-medium">Ой!</span> Пароль не подходит.</span>
-              </label
-              >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  required
+                  v-model="model.password.value"
+                />
+                <span
+                  :class="[{ hidden: !model.password.isInvalid }, 'text-black']"
+                  class="absolute left-0 mt-2 text-xs text-red-600 dark:text-red-400"
+                  ><span class="font-medium">Ой! </span>
+                  <template v-if="model.password.errors.required">пароль обязателен</template>
+                  <template v-else-if="model.password.errors.minLength">
+                    Пароль должен быть не менее 4 символов, а у Вас сейчас
+                    {{ model.password.value.length }}</template
+                  >
+                  <template v-else-if="model.password.errors.conflict"
+                    >Возможно пароль не подходит</template
+                  >
+                </span>
+              </label>
             </div>
             <!-- <div class="flex justify-between">
               <a
@@ -89,21 +104,26 @@
               >
             </div> -->
             <div class="relative">
-
-              <p  :class="{ 'hidden': !error }" class="absolute bottom-14 m-0 left-0 w-full  text-lg border-b-2 pb-1 border-red-600 text-red-600"><span class="font-medium">Ой!</span> Зарегистрируйтесь прежде чем войти</p>
+              <!-- <p
+                :class="{ hidden: !model.email.errors.conflict || !model.password.errors.conflict }"
+                class="absolute bottom-14 m-0 left-0 w-full text-lg pb-1 border-red-600 text-red-600"
+              >
+                <span class="font-medium">Ой!</span> Зарегистрируйтесь прежде чем войти
+              </p> -->
               <button
-              type="submit"
-              @onclick="onRedirect"
-              class=" relativew-max text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 self-center"
-            >
-              Войти
-            </button>
+                type="submit"
+                @onclick="onRedirect"
+                class="relativew-max text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 self-center"
+              >
+                Войти
+              </button>
             </div>
-            
+
             <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
               Не Зарегистрированы?
               <RouterLink
-                to="orders"
+                to="/signup"
+                @click="onClose"
                 class="text-blue-700 hover:underline dark:text-blue-500 pl-3"
                 >Регистрация</RouterLink
               >
@@ -118,19 +138,94 @@
 import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
 import router from "../router/index.ts";
+import {
+  email,
+  minLength,
+  maxLength,
+  required,
+  useForm,
+  space,
+  equal,
+  firstLetter,
+  latin,
+  numeric,
+} from "@/hooks/validator/index.ts";
+
 const props = defineProps({
   open: Boolean,
-  error: Boolean
+  error: Object,
+  handleLogIn: Function,
+  user: Object,
+  handleUpdateBasket: Function,
+  basketArray: Array,
 });
-const isEmailError=ref(false);
-const isPasswordError=ref(false);
-const emit = defineEmits(["closeAccount"]);
+const isEmailError = ref(false);
+const isPasswordError = ref(false);
+// const isError = ref(false);
+const emit = defineEmits(["closeAccount", "emit-error", "del-error", "get-user", "get-basket"]);
 const onClose = () => {
   emit("closeAccount");
+  emit("del-error");
 };
 
 const onRedirect = () => {
-  router.push({ name: "shop" });
-  onClose();
+  // router.push({ name: "shop" });
+  // onClose();
+
+  if (!model.checkValid()) return;
+  props
+    .handleLogIn({ email: model.email.value, password: model.password.value })
+    .then((userData) => {
+      if (!props.basketArray.length) {
+        debugger;
+        emit("get-user", userData);
+
+        router.push({ name: "home" });
+        onClose();
+      } else {
+        const basket = props.basketArray.map((card) => card._id);
+        props.handleUpdateBasket(basket).then((data) => {
+          debugger;
+       
+          console.log("Количество карточек, равное нулю", data);
+          emit("get-basket", data.user.basket);
+          emit("get-user", data.user);
+          router.push({ path: "/shop" });
+          onClose();
+        })
+        .catch((err)=> {
+          emit("emit-error", err.message);
+          emit("get-basket", []);
+          router.push({ path: "/shop" });
+          
+        })
+      }
+      
+    })
+
+    .catch((err) => {
+      emit("emit-error", err.message);
+      console.log("error", err.message);
+      if (err.message === "Неправильные почта или пароль") {
+        model.email.emitError("conflict");
+        model.password.emitError("conflict");
+      }
+    });
 };
+
+const model = useForm({
+  email: {
+    initialValue: "",
+    validators: { required, email },
+  },
+  password: {
+    initialValue: "",
+    validators: {
+      required,
+      minLength: minLength(4),
+      maxLength: maxLength(32),
+      space,
+    },
+  },
+});
 </script>
