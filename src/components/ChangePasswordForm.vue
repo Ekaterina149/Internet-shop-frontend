@@ -78,7 +78,7 @@
       @onSub="onClose"
     />
   </template>
-  <script setup>
+  <script setup >
   import { ref, watch } from "vue";
   import ErrorPopup from "../components/ErrorPopup.vue";
   import router from "../router/index.ts";
@@ -104,7 +104,7 @@
     latin,
     numeric,
     pattern,
-  } from "../hooks/validator/index.ts";
+  } from "vue-valid";
   // const userDataTheSame = ref();
   const fetchDataError = reactive({
     exist: false,
@@ -163,7 +163,7 @@
         debugger;
         model.reset();
         
-        if (!props.profile) debugger;
+        if (!props.profile) 
         router.push({ name: "home" });
       })
       .catch((err) => {

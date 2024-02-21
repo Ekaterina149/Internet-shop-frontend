@@ -18,10 +18,11 @@
     :basketArray="cards.basketArray"
     :cardsArray="cards.cardsArray"
     @get-basket="
-      (basket) => {
+      (basket, cardsZeroAmount) => {
         debugger;
         console.log('get-basket', basket);
         cards.basketArray = basket;
+       
       }
     "
     @get-user="
@@ -38,7 +39,11 @@
       }
     "
     @closeAccount="onCloseAccount"
-    @emit-error="onError"
+    @emit-error="(value) => {
+  isError.exist = true;
+  isError.message = value;
+  console.log('error2', isError.message);
+}"
     :user="user.user"
   />
   <NavBar

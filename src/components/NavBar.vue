@@ -93,8 +93,8 @@
           <li>
             <RouterLink
               class="block py-2 text-gray-900 rounded md:bg-transparent md:hover:text-xl hover:ease-out ease-in duration-300 hover:text-red-900"
-              to="/shop"
-              >Контакты</RouterLink
+              to="/delivery"
+              >Доставка</RouterLink
             >
           </li>
           <li>

@@ -12,12 +12,16 @@
       :repeat="true"
       :interval="5000"
       :images="images"
-      class="relative overflow-hidden bg-transparent grid grid-cols-[320px] grid-rows-[250px] sm:grid-cols-[500px] sm:grid-rows-[460px] md:grid-cols-[700px] md:grid-rows-[615px] min-[900px]:grid-cols-[850px] min-[900px]:grid-rows-[740px] lg:grid-cols-[1000px] lg:grid-rows-[875px] auto-cols-auto justify-items-center items-center after:content-[''] after:absolute after:block after:top-0 after:left-0 after:bg-slate-700 after:bg-opacity-60 after:opacity-0 after:z-20 after:transition-opacity after:w-full after:h-full after:hover:ease-out ease-in duration-300 after:hover:opacity-100 rounded-md sm:rounded-xl "
+      class="relative overflow-hidden bg-transparent grid grid-cols-[320px] grid-rows-[250px] sm:grid-cols-[500px] sm:grid-rows-[460px]
+       md:grid-cols-[700px] md:grid-rows-[615px] min-[900px]:grid-cols-[850px] min-[900px]:grid-rows-[740px] lg:grid-cols-[1000px] lg:grid-rows-[875px] auto-cols-auto justify-items-center items-center
+        rounded-md sm:rounded-xl "
     >
       <template v-slot:routerLink>
         <RouterLink
           to="shop"
-          class="opacity-0 h-full flex items-center justify-center absolute z-30 text-white text-3xl rounded md:bg-transparent md:hover:text-3xl  hover:opacity-100 w-full"
+          class=" h-full w-full flex items-center justify-center absolute z-30
+           text-white text-3xl rounded md:bg-slate-700 bg-slate-700  md:bg-opacity-0 bg-opacity-0
+            md:hover:text-3xl   hover:bg-slate-700 hover:bg-opacity-60 transition-bg-opacity ease-in duration-300 hover:ease-out  "
         >
           В магазин &rarr;
         </RouterLink>

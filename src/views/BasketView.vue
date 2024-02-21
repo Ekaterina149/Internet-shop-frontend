@@ -43,19 +43,24 @@ const usersStore = useUsersStore();
 // );
 const basketSumm = ref(cardsStore.basketSumm);
 const fetchOrder = async(order) => {
-  await usersStore.createNewOrder(order)
-  .catch((err) => {
-      debugger;
-      usersStore.isError.exist= true;
-      usersStore.isError.message=err.message;
-      console.log(err);
-    });
-
-    if(!props.usersStore.isError.exist){
+  try{
+    await usersStore.createNewOrder(order);
+    if(!usersStore.isError.exist){
         debugger;
          cardsStore.fetchClearBasket();
       }
       
+
+  }
+ 
+  catch (err)  {
+      debugger;
+      usersStore.isError.exist= true;
+      usersStore.isError.message=err.message;
+      console.log(err);
+    };
+
+    
   
 
 

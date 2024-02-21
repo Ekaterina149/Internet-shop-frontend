@@ -325,7 +325,7 @@ import {
   latin,
   numeric,
   pattern,
-} from "../hooks/validator/index.ts";
+} from "vue-valid";
 const userDataTheSame = ref();
 const fetchDataError = reactive({
   exist: false,

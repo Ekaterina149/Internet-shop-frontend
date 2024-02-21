@@ -1,7 +1,7 @@
 <template>
   <!-- Main modal -->
   <div
-    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-40 bg-zinc-600 bg-opacity-70"
+    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-50 bg-zinc-600 bg-opacity-70"
     :class="{ hidden: !open }"
   >
     <div
@@ -149,7 +149,7 @@ import {
   firstLetter,
   latin,
   numeric,
-} from "@/hooks/validator/index.ts";
+} from "vue-valid";
 
 const props = defineProps({
   open: Boolean,
@@ -187,8 +187,8 @@ const onRedirect = () => {
         props.handleUpdateBasket(basket).then((data) => {
           debugger;
        
-          console.log("Количество карточек, равное нулю", data);
-          emit("get-basket", data.user.basket);
+          console.log("Количество карточек, равное нулю", data.cardsZeroAmount.length);
+          emit("get-basket", data.user.basket, data.cardsZeroAmount);
           emit("get-user", data.user);
           router.push({ path: "/shop" });
           onClose();

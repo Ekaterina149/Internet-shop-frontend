@@ -267,6 +267,8 @@ export const useUsersStore = defineStore("user", () => {
   const createNewOrder = (orderAdress: fetchOrder) => {
     const orderInfo = {...orderAdress, basket: user.value.basket };
     debugger;
+    if(!user.value.basket.length) 
+    throw new Error('Ваша корзина пуста!')
      const href = BASE_URL + "/orders";
      return fetch(href,
        {  method: 'POST',

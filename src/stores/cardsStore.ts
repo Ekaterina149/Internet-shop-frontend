@@ -228,6 +228,7 @@ export const useCardsStore = defineStore("cards", () => {
   }}
 
   const fetchClearBasket = ():userResp=> {
+    debugger;
     
   
    if(!userStore.isLoggedIn) {
@@ -236,6 +237,7 @@ export const useCardsStore = defineStore("cards", () => {
   else { 
     userStore.updateBasket([])
     .then((user)=> { 
+      debugger;
       userStore.user = user;
       basketArray.value = user.basket;
     } )

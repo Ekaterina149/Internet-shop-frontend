@@ -167,6 +167,7 @@ input[type="checkbox"]:not(:checked) + label:before {
   background-color: transparent;
   border: 2px solid grey;
   border-radius: 6px;
+  z-index: 30;
 }
 input[type="checkbox"]:checked + label:after,
 input[type="checkbox"]:not(:checked) + label:after {
@@ -176,6 +177,7 @@ input[type="checkbox"]:not(:checked) + label:after {
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
+  z-index: 30;
 }
 input[type="checkbox"]:checked + label:after,
 input[type="checkbox"]:not(:checked) + label:after {

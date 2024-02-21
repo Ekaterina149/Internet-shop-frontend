@@ -65,6 +65,11 @@ const router = createRouter({
           name: "password",
           component: () => import("../views/ChangePasswordView.vue"),
         },
+        {
+          path: "delivery",
+          name: "delivery",
+          component: () => import("../views/DeliveryView.vue"),
+        },
       ],
     },
     {

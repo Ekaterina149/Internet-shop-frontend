@@ -159,7 +159,7 @@ latin,
 numeric,
 pattern,
 
-} from "../hooks/validator/index.ts";
+} from "vue-valid";
 // const cardsStore = useCardsStore();
 const emit = defineEmits(["newOrder"]);
 const props = defineProps({
