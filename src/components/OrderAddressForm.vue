@@ -1,6 +1,6 @@
 <template>
 <form
-class="bg-white box-border p-4 border-spacing-2 rounded-xl flex flex-col items-start self-start w-full " novalidate @submit.prevent="onSubmit"
+class="bg-white box-border p-4 border-spacing-2 rounded-xl flex flex-col items-start self-center  w-full max-w-[1000px] " novalidate @submit.prevent="onSubmit"
 >
 <h5 class="p-4 font-bold text:base sm:text-xl"> Сумма Вашего заказа {{ props.cardsStore.basketSumm }} рублей</h5>
 <h5 class="p-4 font-bold text:base sm:text-xl">Доставка по адресу:</h5>
@@ -161,7 +161,7 @@ pattern,
 
 } from "vue-valid";
 // const cardsStore = useCardsStore();
-const emit = defineEmits(["newOrder"]);
+const emit = defineEmits(["newOrder", "error"]);
 const props = defineProps({
   cardsStore: Object,
   usersStore: Object,
@@ -219,15 +219,35 @@ numeric,
 }, 
 });
 let newOrder=ref(null);
+const keys = Object.keys(model);
+ const notNeededKeys = ['checkValid', 'reset', 'isChanged'];
+ const newkeys = keys.filter(item => !notNeededKeys.includes(item));
+let isValidForm = true;
 const   onSubmit = async ()=> {
 
 
-  
+  newkeys.forEach(key => {
+  if(model[key].value === "")
+  {
+    isValidForm = false;
+    return;
+
+  }
+ });
+
+ 
+  if(isValidForm) {
     await emit('newOrder', {postIndex:model.index.value, city:model.city.value, street:model.street.value, house:model.house.value, flat:model.flat.value, basket:props.usersStore.user.basket      });
     
       
         model.reset();
-      
+
+  }
+   else {
+    emit ('error', true, "Пожалуйста, заполните форму корректно")
+    isValidForm = true;
+   }
+    
  
   }
 

@@ -17,7 +17,7 @@
         />
       </li>
     </ul>
-    <h5 class="grow" v-else>У Вас нет заказов</h5>
+    <h5 class=" grow text-2xl self-center w-full text-center" v-else>У Вас нет заказов</h5>
   </template>
   <script setup>
    

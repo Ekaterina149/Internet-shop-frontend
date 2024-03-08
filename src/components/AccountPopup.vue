@@ -191,7 +191,7 @@ const onRedirect = () => {
           emit("get-basket", data.user.basket, data.cardsZeroAmount);
           emit("get-user", data.user);
           router.push({ path: "/shop" });
-          onClose();
+         // onClose();
         })
         .catch((err)=> {
           emit("emit-error", err.message);

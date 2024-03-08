@@ -7,7 +7,6 @@
     @user-data-change="
       (value) => {
         user.user = value;
-       
       }
     "
   />
@@ -22,15 +21,5 @@ const profile = ref(false);
 const props = defineProps({
   errorMessage: String,
   openError: Boolean,
-})
-// const  user = { user: {
-
-//   name: "",
-//   email: "",
-//   customerName: "",
-//   customerSurName: "",
-//   customerFathersName: "",
-//   phone: "",
-
-// }};
+});
 </script>

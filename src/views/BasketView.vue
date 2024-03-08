@@ -1,7 +1,11 @@
 <template>
   <section
-    class="h-full w-full rounded-lg grow flex flex-col justify-start pt-10 items-start gap-x-4 gap-y-2 md:flex-row"
+    class="h-full w-full rounded-lg grow flex flex-col justify-start pt-10 items-start gap-x-4 gap-y-2"
+    :class="{ 'md:flex-row': cardsStore.basketArray.length }"
   >
+    <h5 v-if="!cardsStore.basketArray.length" class="text-2xl self-center w-full text-center">
+      Ваша корзина пуста
+    </h5>
     <BasketItems
       :cardsStore="cardsStore"
       :basketArrayWithQuantity="cardsStore.basketArrayWithQuantity"
@@ -10,12 +14,18 @@
       :cardsStore="cardsStore"
       :usersStore="usersStore"
       @newOrder="fetchOrder"
+      @error="
+        (exist, message) => {
+          usersStore.isError.exist = exist;
+          usersStore.isError.message = message;
+        }
+      "
     />
     <ErrorPopup
-    :open="usersStore.isError.exist"
-    :message="usersStore.isError.message"
-    @onSub="onClose"
-  />
+      :open="usersStore.isError.exist"
+      :message="usersStore.isError.message"
+      @onSub="onClose"
+    />
   </section>
 </template>
 <script setup>
@@ -27,46 +37,21 @@ import ErrorPopup from "../components/ErrorPopup.vue";
 import { watch } from "vue";
 const cardsStore = useCardsStore();
 const usersStore = useUsersStore();
-// const newOrder = ref(null);
 
-// const basketArrayWithQuantity = computed(() =>
-//   cardsStore.basketArray.reduce((acc, curr) => {
-//     const existingItem = acc.find((item) => item._id === curr._id);
-//     if (existingItem) {
-//       // eslint-disable-next-line no-plusplus
-//       existingItem.quantity++;
-//     } else {
-//       acc.push({ ...curr, quantity: 1 });
-//     }
-//     return acc;
-//   }, [])
-// );
 const basketSumm = ref(cardsStore.basketSumm);
-const fetchOrder = async(order) => {
-  try{
+const fetchOrder = async (order) => {
+  try {
     await usersStore.createNewOrder(order);
-    if(!usersStore.isError.exist){
-        debugger;
-         cardsStore.fetchClearBasket();
-      }
-      
-
+    if (!usersStore.isError.exist) {
+      cardsStore.fetchClearBasket();
+    }
+  } catch (err) {
+    usersStore.isError.exist = true;
+    usersStore.isError.message = err.message;
+    console.log(err);
   }
- 
-  catch (err)  {
-      debugger;
-      usersStore.isError.exist= true;
-      usersStore.isError.message=err.message;
-      console.log(err);
-    };
-
-    
-  
-
-
 };
 const onClose = () => {
-  
   usersStore.isError.exist = false;
   usersStore.isError.message = "";
 };

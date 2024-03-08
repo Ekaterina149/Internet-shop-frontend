@@ -4,7 +4,7 @@
   >
     <div class="flex flex-wrap items-center justify-between mx-auto pt-1 px-4">
       <RouterLink to="/" class="flex flex-col items-center pr-4">
-        <img src="../assets/korzina_pbzcrxl7vk40_512.png" class="h-10 mr-2" alt="Flowbite Logo" />
+        <img src="../assets/korzina_pbzcrxl7vk40_512.png" class="h-10 mr-2" alt="Site Logo" />
         <span
           class="inline-block self-center text-2xl font-leo whitespace-nowrap dark:text-white pt-0"
           >Изделия из лозы</span

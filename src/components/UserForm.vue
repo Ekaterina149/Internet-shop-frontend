@@ -101,7 +101,7 @@
           >Пароль</label
         >
       </div>
-      <div  v-if="!props.profile" class="relative z-0 w-full mb-6 group">
+      <div v-if="!props.profile" class="relative z-0 w-full mb-6 group">
         <span
           :class="[{ hidden: !model.confirmPassword.isInvalid }, 'text-black']"
           class="absolute center-0 -bottom-10 md:center-0 md:-bottom-14 mt-2 text-xs text-red-600 dark:text-red-400"
@@ -408,8 +408,6 @@ const compareFields = () => {
   let userDataTheSameValue = true;
   keys.forEach((key) => {
     if (currentUserEqualField.value[key] !== model[key].value) {
-      debugger;
-    
       userDataTheSameValue = false;
 
       return;
@@ -442,29 +440,26 @@ const onClose = () => {
 const onSubmit = () => {
   model.checkValid();
   compareFields();
-  if(!userDataTheSame.value){
+  if (!userDataTheSame.value) {
     props
-    .handleSubmit({
-      name: model.login.value,
-      email: model.email.value,
-      customerName: model.name.value,
-      customerSurName: model.lastname.value,
-      customerFathersName: model.fathersname.value,
-      phone: model.phone.value,
-      password:  model.password.value && model.password.value,
-    })
-    .then((data) => {
-      emit("user-data-change", data);
-      if (!props.profile) debugger;
-      router.push({ name: "home" });
-    })
-    .catch((err) => {
-      fetchDataError.exist = true;
-      fetchDataError.message = err.message;
-    });
-
+      .handleSubmit({
+        name: model.login.value,
+        email: model.email.value,
+        customerName: model.name.value,
+        customerSurName: model.lastname.value,
+        customerFathersName: model.fathersname.value,
+        phone: model.phone.value,
+        password: model.password.value && model.password.value,
+      })
+      .then((data) => {
+        emit("user-data-change", data);
+        if (!props.profile) router.push({ name: "home" });
+      })
+      .catch((err) => {
+        fetchDataError.exist = true;
+        fetchDataError.message = err.message;
+      });
   }
-  
 };
 </script>
 

@@ -19,15 +19,18 @@
     :cardsArray="cards.cardsArray"
     @get-basket="
       (basket, cardsZeroAmount) => {
-        debugger;
+        if (cardsZeroAmount.length) {
+          isError.exist = true;
+          isError.message = `Количество товара  в корзине скорректировано в соответствии с наличием на складе, количество товара арт. : ${cardsZeroAmount
+            .map((element) => element.articleNumber)
+            .join(',')} на складе рано нулю`;
+        }
         console.log('get-basket', basket);
         cards.basketArray = basket;
-       
       }
     "
     @get-user="
       (userData) => {
-        debugger;
         user.user = userData;
         user.isLoggedIn = true;
       }
@@ -39,11 +42,13 @@
       }
     "
     @closeAccount="onCloseAccount"
-    @emit-error="(value) => {
-  isError.exist = true;
-  isError.message = value;
-  console.log('error2', isError.message);
-}"
+    @emit-error="
+      (value) => {
+        isError.exist = true;
+        isError.message = value;
+        console.log('error2', isError.message);
+      }
+    "
     :user="user.user"
   />
   <NavBar

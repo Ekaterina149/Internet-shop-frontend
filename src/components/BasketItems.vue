@@ -17,7 +17,7 @@
       />
     </li>
   </ul>
-  <h5 class="grow" v-else>Ваша корзина пуста</h5>
+  <!-- <h5 class="grow text-2xl self-center" v-else>Ваша корзина пуста</h5> -->
 </template>
 <script setup>
  import {ref} from "vue";

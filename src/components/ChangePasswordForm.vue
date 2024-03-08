@@ -42,6 +42,9 @@
             <template v-else-if="model.newPassword.errors.newPassword">
               Пароль  совпадает {{ model.newPassword.value }}</template
             >
+            <template v-else-if="model.newPassword.errors.minLength">
+              Пароль должен быть не менее 4 символов, а у Вас сейчас
+              {{ model.newPassword.value.length }}</template>
           </span>
           <input
             type="password"
@@ -151,6 +154,8 @@
   
   const onSubmit = () => {
     model.checkValid();
+    if(!model.newPassword.isInvalid && !model.password.isInvalid){
+      debugger;
       props
       .handleSubmit({
         password: model.password.value
@@ -171,6 +176,13 @@
         fetchDataError.exist = true;
         fetchDataError.message = err.message;
       });
+
+    }
+    else {
+      fetchDataError.exist = true;
+      fetchDataError.message = "Заполните правильно форму!";
+    }
+   
   
     
     

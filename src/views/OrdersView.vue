@@ -1,27 +1,18 @@
 <template>
-  <h2>Заказ номер №{{ user.newOrder._id }} оформлен</h2>
-
-  <!-- <h2>Заказ номер №{{OrderArrayWithQuantity.orderItems.length}} оформлен</h2> -->
   <OrderItems
     :user="user"
     :orderArrayWithQuantity="OrderArrayWithQuantity"
-    @repeatOrd="(id)=>{
-      user.repeatOrder(id)
-    .catch((err) => {
-      debugger;
-      user.isError.exist= true;
-      user.isError.message=err.message;
-      console.log(err);
-    })
-      
-    }"
-    
+    @repeatOrd="
+      (id) => {
+        user.repeatOrder(id).catch((err) => {
+          user.isError.exist = true;
+          user.isError.message = err.message;
+          console.log(err);
+        });
+      }
+    "
   />
-  <ErrorPopup
-    :open="user.isError.exist"
-    :message="user.isError.message"
-    @onSub="onClose"
-  />
+  <ErrorPopup :open="user.isError.exist" :message="user.isError.message" @onSub="onClose" />
 </template>
 <script setup>
 import OrderItems from "../components/OrderItems.vue";
@@ -65,7 +56,6 @@ const OrderArrayWithQuantity = computed(() =>
   }))
 );
 const onClose = () => {
-  
   user.isError.exist = false;
   user.isError.message = "";
 };

@@ -26,7 +26,7 @@
         <tbody>
             <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white bg-opacity-80 border-b dark:bg-gray-800 dark:border-gray-700 justify-items-center">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
-                    > 1кг
+                    менее 1кг
                 </th>
                 <td class="px-6 py-4 justify-self-start w-full  border-slate-300 border-r box-border" lang="ru">
                     Иркутская область, Бурятия
@@ -38,7 +38,7 @@
             </tr>
             <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 border-b dark:bg-gray-800 dark:border-gray-700 justify-items-center">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
-                    > 1кг
+                    менее 1кг
                 </th>
                 <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru">
                     Красноярский край, Новосибирская область
@@ -50,7 +50,7 @@
             </tr>
             <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 dark:bg-gray-800 justify-items-center ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
-                    > 1кг
+                    менее 1кг
                 </th>
                 <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru">
                     Республика Алтай, Кемеровская область, Томская область, Алтайский край
@@ -62,13 +62,73 @@
             </tr>
             <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 dark:bg-gray-800 justify-items-center">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
-                    > 1кг
+                    менее 1кг
                 </th>
                 <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru">
                     Москва, Московская область, Санкт-Петербург, Ленинградская область, Владимирская область, Тульская область, Костромская область, Урал и т.п.
                 </td>
                 <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
                     600 руб
+                </td>
+            
+            </tr>
+            <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 dark:bg-gray-800 justify-items-center">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
+                    менее 1кг
+                </th>
+                <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru" >
+                    Дальний Восток, Белгородская область, Курская область, Краснодарский край, Ростовская область
+                </td>
+                <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
+                    700 руб
+                </td>
+            
+            </tr>
+            <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white bg-opacity-80 border-b dark:bg-gray-800 dark:border-gray-700 justify-items-center">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
+                    > 1кг
+                </th>
+                <td class="px-6 py-4 justify-self-start w-full  border-slate-300 border-r box-border" lang="ru">
+                    Иркутская область, Бурятия
+                </td>
+                <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
+                    600 руб
+                </td>
+                
+            </tr>
+            <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 border-b dark:bg-gray-800 dark:border-gray-700 justify-items-center">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
+                    > 1кг
+                </th>
+                <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru">
+                    Красноярский край, Новосибирская область
+                </td>
+                <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
+                    700 руб
+                </td>
+              
+            </tr>
+            <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 dark:bg-gray-800 justify-items-center ">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
+                    > 1кг
+                </th>
+                <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru">
+                    Республика Алтай, Кемеровская область, Томская область, Алтайский край
+                </td>
+                <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
+                    800 руб
+                </td>
+            
+            </tr>
+            <tr class="w-full grid grid-cols-[100px,_minmax(100px,_1fr),_100px] grid-rows-1 bg-white  bg-opacity-80 dark:bg-gray-800 justify-items-center">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white w-full box-border  border-slate-300 border-r">
+                    > 1кг
+                </th>
+                <td class="px-6 py-4 justify-self-start w-full box-border  border-slate-300 border-r break-words hyphens-auto" lang="ru">
+                    Москва, Московская область, Санкт-Петербург, Ленинградская область, Владимирская область, Тульская область, Костромская область, Урал и т.п.
+                </td>
+                <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
+                    800 руб
                 </td>
             
             </tr>
@@ -80,7 +140,7 @@
                     Дальний Восток, Белгородская область, Курская область, Краснодарский край, Ростовская область
                 </td>
                 <td class="px-6 py-4 w-full box-border  border-slate-300 border-r">
-                    700 руб
+                    800 руб
                 </td>
             
             </tr>
