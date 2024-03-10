@@ -1,66 +1,96 @@
 <template>
- <form
-      class="bg-white border border-gray-200 rounded-lg hover:shadow-lg hover:shadow-black box-border py-8 self-start"
-    >
-      <h5
-        class="self-center pb-4 mb-6 text-md md:text-xl border-b-2 border-b-zinc-600 px-8">
-        Фильтр товаров
-      </h5>
-      <div class="px-8">
-        <input type="checkbox" id="cb1" v-model="BasketCheckbox" /> <label for="cb1">Корзины</label>
-      </div>
-      <div class="px-8">
-        <input type="checkbox" v-model="TrayCheckbox" id="cb2" /> <label for="cb2">Подносы</label>
-      </div>
-      <div v-if="props.bag" class="px-8">
-        <input type="checkbox" v-model="BagCheckbox" id="cb3" /> <label for="cb3">Сумки</label>
-      </div>
-      <div  v-if="props.small" class="px-8">
-        <input type="checkbox" v-model="SmallCheckbox" id="cb4" /> <label for="cb4">Всякая мелочь</label>
-      </div>
-      <div class="wrapper">
+  <form
+    class="bg-white border border-gray-200 rounded-lg hover:shadow-lg hover:shadow-black box-border py-8 self-start"
+  >
+    <h5 class="self-center pb-4 mb-6 text-md md:text-xl border-b-2 border-b-zinc-600 px-8">
+      Фильтр товаров
+    </h5>
+    <div class="px-8">
+      <input type="checkbox" id="cb1" v-model="BasketCheckbox" /> <label for="cb1">Корзины</label>
+    </div>
+    <div class="px-8">
+      <input type="checkbox" v-model="TrayCheckbox" id="cb2" /> <label for="cb2">Подносы</label>
+    </div>
+    <div v-if="props.bag" class="px-8">
+      <input type="checkbox" v-model="BagCheckbox" id="cb3" /> <label for="cb3">Сумки</label>
+    </div>
+    <div v-if="props.small" class="px-8">
+      <input type="checkbox" v-model="SmallCheckbox" id="cb4" />
+      <label for="cb4">Всякая мелочь</label>
+    </div>
+    <div class="wrapper">
       <header>
-        
         <p>Диапазон цены, руб</p>
       </header>
       <div class="price-input">
         <div class="field">
           <span>Min</span>
-          <input type="number" class="input-min" :min="props.startMinPrice" :max="props.startMaxPrice" v-model="MinPrice">
+          <input
+            type="number"
+            class="input-min"
+            :min="props.startMinPrice"
+            :max="props.startMaxPrice"
+            v-model="MinPrice"
+          />
         </div>
         <div class="separator">-</div>
         <div class="field">
           <span>Max</span>
-          <input type="number" class="input-max" :min="props.startMinPrice" :max="props.startMaxPrice" v-model="MaxPrice">
+          <input
+            type="number"
+            class="input-max"
+            :min="props.startMinPrice"
+            :max="props.startMaxPrice"
+            v-model="MaxPrice"
+          />
         </div>
       </div>
       <div class="slider">
         <div class="progress" :style="`left: ${minProcent}%; right: ${maxProcent}%; `"></div>
       </div>
       <div class="range-input">
-        <input type="range" class="range-min" :min="props.startMinPrice" :max="props.startMaxPrice"   v-model="MinPrice">
-        <input type="range" class="range-max" :min="props.startMinPrice" :max="props.startMaxPrice"  v-model="MaxPrice">
+        <input
+          type="range"
+          class="range-min"
+          :min="props.startMinPrice"
+          :max="props.startMaxPrice"
+          v-model="MinPrice"
+        />
+        <input
+          type="range"
+          class="range-max"
+          :min="props.startMinPrice"
+          :max="props.startMaxPrice"
+          v-model="MaxPrice"
+        />
       </div>
     </div>
-    </form>
+  </form>
 </template>
 
 <script setup>
-import {ref, computed, watch } from "vue";
-const props= defineProps({
-    minPrice: Number,
-    maxPrice: Number,
-    startMinPrice: Number,
-    startMaxPrice: Number, 
-    basketCheckbox: Boolean,
-    bagCheckbox: Boolean,
-    smallCheckbox: Boolean,
-    trayCheckbox: Boolean,
-    updatedMaxPrice: Number,
-    bag: Number,
-    small: Number,
+import { ref, computed, watch } from "vue";
+const props = defineProps({
+  minPrice: Number,
+  maxPrice: Number,
+  startMinPrice: Number,
+  startMaxPrice: Number,
+  basketCheckbox: Boolean,
+  bagCheckbox: Boolean,
+  smallCheckbox: Boolean,
+  trayCheckbox: Boolean,
+  updatedMaxPrice: Number,
+  bag: Number,
+  small: Number,
 });
-const emit = defineEmits(["update:max-price", "update:min-price", "update:bag-checkbox", "update:basket-checkbox", "update:tray-checkbox", "update:small-checkbox"]);
+const emit = defineEmits([
+  "update:max-price",
+  "update:min-price",
+  "update:bag-checkbox",
+  "update:basket-checkbox",
+  "update:tray-checkbox",
+  "update:small-checkbox",
+]);
 
 const BasketCheckbox = computed({
   get: () => props.basketCheckbox,
@@ -93,52 +123,41 @@ const SmallCheckbox = computed({
 const MinPrice = computed({
   get: () => props.minPrice,
   set: (value) => {
-    if(value  >= props.startMinPrice)
-    emit("update:min-price", value);
+    if (value >= props.startMinPrice) emit("update:min-price", value);
     else emit("update:min-price", props.startMinPrice);
   },
 });
 const MaxPrice = computed({
   get: () => props.maxPrice,
   set: (value) => {
-
-    if(value  <= props.startMaxPrice)
-    emit("update:maxPrice", value);
-  else emit("update:maxPrice", props.startMaxPrice);
-  
+    if (value <= props.startMaxPrice) emit("update:maxPrice", value);
+    else emit("update:maxPrice", props.startMaxPrice);
   },
 });
 function convertRangeToPercent(value, min, max) {
-  return ((value - min) / (max - min)) * 100;}
-  const minProcent = ref(0);
-  const maxProcent =ref(0);
-const minProcentCount = () =>{ 
-  // debugger;
-  return MinPrice.value <= props.startMinPrice ? 0:convertRangeToPercent(props.minPrice, props.startMinPrice, props.startMaxPrice) }; 
-const maxProcentCount = () => { return MaxPrice.value >= props.startMaxPrice ?  0: ( (props.startMaxPrice-props.maxPrice)*100/(props.startMaxPrice-props.startMinPrice)  )}; 
-console.log('MaxPrice', MaxPrice);
-watch([()=>props.startMaxPrice, ()=>props.minPrice, ()=>props.maxPrice, ()=>props.minPrice  ], () => {
+  return ((value - min) / (max - min)) * 100;
+}
+const minProcent = ref(0);
+const maxProcent = ref(0);
+const minProcentCount = () => {
+  return MinPrice.value <= props.startMinPrice
+    ? 0
+    : convertRangeToPercent(props.minPrice, props.startMinPrice, props.startMaxPrice);
+};
+const maxProcentCount = () => {
+  return MaxPrice.value >= props.startMaxPrice
+    ? 0
+    : ((props.startMaxPrice - props.maxPrice) * 100) / (props.startMaxPrice - props.startMinPrice);
+};
 
-  
-  // debugger;
-  // MaxPrice.value = props.startMaxPrice;
-  // MinPrice.value = props.startMinPrice;
-  maxProcent.value = maxProcentCount();
-  minProcent.value= minProcentCount();
-} );
-// watchEffect( () => {
-// if( props.minPrice !==  props.startMinPrice ){
-//   console.log("watchMinPrice");
-// debugger;
-// // MaxPrice.value = props.startMaxPrice;
-// // MinPrice.value = props.startMinPrice;
-// maxProcent.value = maxProcentCount();
-// minProcent.value= minProcentCount();
-// }
-
-// } );
+watch(
+  [() => props.startMaxPrice, () => props.minPrice, () => props.maxPrice, () => props.minPrice],
+  () => {
+    maxProcent.value = maxProcentCount();
+    minProcent.value = minProcentCount();
+  }
+);
 </script>
-
 
 <style>
 input[type="checkbox"]:checked,
@@ -167,6 +186,7 @@ input[type="checkbox"]:not(:checked) + label:before {
   background-color: transparent;
   border: 2px solid grey;
   border-radius: 6px;
+  z-index: 30;
 }
 input[type="checkbox"]:checked + label:after,
 input[type="checkbox"]:not(:checked) + label:after {
@@ -176,6 +196,7 @@ input[type="checkbox"]:not(:checked) + label:after {
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
+  z-index: 30;
 }
 input[type="checkbox"]:checked + label:after,
 input[type="checkbox"]:not(:checked) + label:after {
@@ -200,33 +221,32 @@ input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
 
-.wrapper{
+.wrapper {
   width: 280px;
   background: transparent;
   border-radius: 10px;
   padding: 20px 2rem 40px;
-  
 }
-header h2{
+header h2 {
   font-size: 24px;
   font-weight: 600;
 }
-header p{
+header p {
   margin-top: 5px;
   font-size: 16px;
 }
-.price-input{
+.price-input {
   width: 100%;
   display: flex;
   margin: 30px 0 35px;
 }
-.price-input .field{
+.price-input .field {
   display: flex;
   width: 100%;
   height: 45px;
   align-items: center;
 }
-.field input{
+.field input {
   width: 100%;
   min-width: 60px;
   height: 100%;
@@ -242,31 +262,30 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-.price-input .separator{
+.price-input .separator {
   width: 100px;
   display: flex;
   font-size: 19px;
   align-items: center;
   justify-content: center;
 }
-.slider{
+.slider {
   height: 5px;
   position: relative;
   background: #ddd;
   border-radius: 5px;
 }
-.slider .progress{
+.slider .progress {
   height: 100%;
-  /* left: 50%; */
-  /* right: 25%; */
+
   position: absolute;
   border-radius: 5px;
-  background: #17A2B8;
+  background: #17a2b8;
 }
-.range-input{
+.range-input {
   position: relative;
 }
-.range-input input{
+.range-input input {
   position: absolute;
   width: 100%;
   height: 5px;
@@ -276,23 +295,23 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-input[type="range"]::-webkit-slider-thumb{
+input[type="range"]::-webkit-slider-thumb {
   height: 17px;
   width: 17px;
   border-radius: 50%;
-  background: #17A2B8;
+  background: #17a2b8;
   pointer-events: auto;
   -webkit-appearance: none;
-  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
-input[type="range"]::-moz-range-thumb{
+input[type="range"]::-moz-range-thumb {
   height: 17px;
   width: 17px;
   border: none;
   border-radius: 50%;
-  background: #17A2B8;
+  background: #17a2b8;
   pointer-events: auto;
   -moz-appearance: none;
-  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
 </style>

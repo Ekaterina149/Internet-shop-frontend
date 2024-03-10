@@ -48,7 +48,7 @@
             </div>
           </div>
 
-          <!-- <p class="inline-block">Количество{{   ' '+ item.quantity + ' ' }} шт.</p> -->
+         
         </div>
         <BasketRemoveItemButton v-if="isBasket"
           text="Удалить"

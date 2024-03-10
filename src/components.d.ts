@@ -19,7 +19,6 @@ declare module '@vue/runtime-core' {
     BasketRemoveItemButton: typeof import('./components/BasketRemoveItemButton.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Carousel: typeof import('./components/Carousel.vue')['default']
-    Carusel: typeof import('./components/old/Carusel.vue')['default']
     ChangePasswordForm: typeof import('./components/ChangePasswordForm.vue')['default']
     ErrorPopup: typeof import('./components/ErrorPopup.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']

@@ -8,6 +8,7 @@
     "
     :message="isError.message || cards.isError.message"
     :open="isError.exist || cards.isError.exist"
+    class="z-40"
   />
   <AccountPopup
     v-if="!user.isLoggedIn"
@@ -18,19 +19,19 @@
     :basketArray="cards.basketArray"
     :cardsArray="cards.cardsArray"
     @get-basket="
-      (basket) => {
-        debugger;
+      (basket, cardsZeroAmount) => {
+        if (cardsZeroAmount.length) {
+          isError.exist = true;
+          isError.message = `Количество товара  в корзине скорректировано в соответствии с наличием на складе, количество товара арт. : ${cardsZeroAmount
+            .map((element) => element.articleNumber)
+            .join(',')} на складе рано нулю`;
+        }
         console.log('get-basket', basket);
         cards.basketArray = basket;
       }
     "
-    @get-user="
-      (userData) => {
-        debugger;
-        user.user = userData;
-        user.isLoggedIn = true;
-      }
-    "
+   
+    
     @del-error="
       () => {
         isError.exist = false;
@@ -38,7 +39,13 @@
       }
     "
     @closeAccount="onCloseAccount"
-    @emit-error="onError"
+    @emit-error="
+      (value) => {
+        isError.exist = true;
+        isError.message = value;
+        console.log('error2', isError.message);
+      }
+    "
     :user="user.user"
   />
   <NavBar

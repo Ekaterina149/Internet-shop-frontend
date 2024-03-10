@@ -1,27 +1,18 @@
 <template>
-  <h2>Заказ номер №{{ user.newOrder._id }} оформлен</h2>
-
-  <!-- <h2>Заказ номер №{{OrderArrayWithQuantity.orderItems.length}} оформлен</h2> -->
   <OrderItems
     :user="user"
     :orderArrayWithQuantity="OrderArrayWithQuantity"
-    @repeatOrd="(id)=>{
-      user.repeatOrder(id)
-    .catch((err) => {
-      debugger;
-      user.isError.exist= true;
-      user.isError.message=err.message;
-      console.log(err);
-    })
-      
-    }"
-    
+    @repeatOrd="
+      (id) => {
+        user.repeatOrder(id).catch((err) => {
+          user.isError.exist = true;
+          user.isError.message = err.message;
+          console.log(err);
+        });
+      }
+    "
   />
-  <ErrorPopup
-    :open="user.isError.exist"
-    :message="user.isError.message"
-    @onSub="onClose"
-  />
+  <ErrorPopup :open="user.isError.exist" :message="user.isError.message" @onSub="onClose" />
 </template>
 <script setup>
 import OrderItems from "../components/OrderItems.vue";
@@ -42,30 +33,34 @@ const newOrderArrayWithQuantity = computed(() =>
   }, [])
 );
 
-const OrderArrayWithQuantity = computed(() =>
-  user.orderArray.map((element) => ({
-    _id: element._id,
-    city: element.city,
-    flat: element.flat,
-    house: element.house,
-    orderItems: element.orderItems.reduce((acc, curr) => {
-      const existingItem = acc.find((item) => item._id === curr._id);
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        acc.push({ ...curr, quantity: 1 });
-      }
-      return acc;
-    }, []),
-    paid: element.paid,
-    postIndex: element.postIndex,
-    status: element.status,
-    street: element.street,
-    orderSum: element.orderItems.reduce((sum, item) => sum + item.price, 0),
-  }))
-);
-const onClose = () => {
+const OrderArrayWithQuantity = computed(() => {
+  if (user.orderArray.length) {
+        return user.orderArray.map((element) => ({
+      _id: element._id,
+      city: element.city,
+      flat: element.flat,
+      house: element.house,
+      orderItems: element.orderItems.reduce((acc, curr) => {
+        const existingItem = acc.find((item) => item._id === curr._id);
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          acc.push({ ...curr, quantity: 1 });
+        }
+        return acc;
+      }, []),
+      paid: element.paid,
+      postIndex: element.postIndex,
+      status: element.status,
+      street: element.street,
+      orderSum: element.orderItems.reduce((sum, item) => sum + item.price, 0),
+    }));
+  }
+});
+
   
+
+const onClose = () => {
   user.isError.exist = false;
   user.isError.message = "";
 };

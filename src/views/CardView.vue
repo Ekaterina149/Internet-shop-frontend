@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ cardsStore.getCardById(route.params.cardId) }}</pre> -->
+ 
   <div class=" shadow-lg  shadow-black flex flex-col box-border xl:pl-8 xl:pr-40 px-0 py-8 items-center justify-center h-full  w-full mt-10 bg-white rounded-xl ">
     <h5 class="self-center mt-12  mb-12 text-2xl md:text-3xl ">{{ ucFirst(currentCard.productName) }}</h5>
     <section class="flex flex-row  gap-x-1   md:gap-x-4 lg:gap-x-8 xl:gap-x-10 2xl:gap-x-40 w-full   flex-wrap justify-center">
@@ -26,7 +26,7 @@
         </template>
       </Carousel>
       
-      <div class="grow-0 min-[400px]:grow  md:max-w-[450px] xl:max-w-[600px] max-w-full self-center  ">
+      <div class="grow-0   md:max-w-[450px] xl:max-w-[600px] max-w-full self-center  ">
         
         <ul class="bg-white box-border px-4 pt-4 pb-11 flex flex-col gap-y-4">
           <h5 class="self-center my-4 text-2xl md:text-3xl">{{"Характеристики"}}</h5>
@@ -114,7 +114,7 @@
             </div>
           
           
-          <!-- <li>{{ currentCard.amount > 0 ? "Есть в наличии" : "Под заказ" }}</li> -->
+          
         </ul>
       
      
@@ -122,12 +122,10 @@
       </div>
       
     </section>
-    <h5 class="self-center  mt-12  mb-12 text-2xl md:text-3xl ">{{ "Описание" }}</h5>
-    <p class="bg-white box-border px-10 pb-10 self-stretch  text-justify">{{ (currentCard.description.length > 30) && !clicked ? currentCard.description.split(' ').slice(0,Math.trunc(currentCard.description.split(' ').length/4)).join(' ') + '...': currentCard.description   }}</p>
-    <!-- <a :class="{'text-red-900': clicked }"  @click="showDetails">
-
-      {{DetailsTextContent}}</a> -->
-    <ShowDetailsButton v-if="currentCard.description.length > 30" :class="{'underline': clicked, 'text-red-900': clicked }"  :clickedButton="clicked" @onclick="showDetails"/>
+    <h5 class="self-center  mt-4 min-[900px]:mt-12  mb-12 text-2xl md:text-3xl ">{{ "Описание" }}</h5>
+    <p class="bg-white box-border mx-10 mb-10 self-stretch  text-justify" :class="{ 'line-clamp-2' : !clicked && currentCard.description.length > 150 }"> {{ currentCard.description   }}</p>
+  
+    <ShowDetailsButton v-if="currentCard.description.length > 150" :class="{'underline': clicked, 'text-red-900': clicked }"  :clickedButton="clicked" @onclick="showDetails"/>
   </div>
 </template>
 <script setup>

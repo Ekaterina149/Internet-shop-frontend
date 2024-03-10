@@ -17,28 +17,17 @@
       />
     </li>
   </ul>
-  <h5 class="grow" v-else>Ваша корзина пуста</h5>
+ 
 </template>
 <script setup>
  import {ref} from "vue";
 import BasketItem from "./BasketItem.vue";
-// const cardsStore = useCardsStore();
+
 const  isBasket=ref(true);
  const props = defineProps({
   cardsStore: Object,
   basketArrayWithQuantity: Array
 
 });
-// const basketArrayWithQuantity = computed(() =>
-//   props.cardsStore.basketArray.reduce((acc, curr) => {
-//     const existingItem = acc.find((item) => item._id === curr._id);
-//     if (existingItem) {
-//       // eslint-disable-next-line no-plusplus
-//       existingItem.quantity++;
-//     } else {
-//       acc.push({ ...curr, quantity: 1 });
-//     }
-//     return acc;
-//   }, [])
-// );
+
 </script>

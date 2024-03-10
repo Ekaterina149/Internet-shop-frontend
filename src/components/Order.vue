@@ -41,7 +41,7 @@ const props=defineProps({
 });
 const emit = defineEmits(['repeat'])
 const repeatOrder = ()=>{
-// props.repOrder(order._id)
+
 emit('repeat', props.order._id);
 
 } 
