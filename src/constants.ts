@@ -1,4 +1,4 @@
-const BASE_URL: string = "http://localhost:3001";
+const BASE_URL: string = "/api";
 
 interface HeadersObject {
   [key: string]: string;
