@@ -8,6 +8,7 @@
     "
     :message="isError.message || cards.isError.message"
     :open="isError.exist || cards.isError.exist"
+    class="z-40"
   />
   <AccountPopup
     v-if="!user.isLoggedIn"
@@ -29,12 +30,8 @@
         cards.basketArray = basket;
       }
     "
-    @get-user="
-      (userData) => {
-        user.user = userData;
-        user.isLoggedIn = true;
-      }
-    "
+   
+    
     @del-error="
       () => {
         isError.exist = false;

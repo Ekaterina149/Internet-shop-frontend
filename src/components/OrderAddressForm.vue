@@ -146,7 +146,6 @@ class="bg-white box-border p-4 border-spacing-2 rounded-xl flex flex-col items-s
 </template>
 <script setup>
 import BasketRemoveItemButton from "./BasketRemoveItemButton.vue";
-// import { useCardsStore } from "../stores/cardsStore.ts";
 import {
 minLength,
 maxLength,
@@ -160,7 +159,6 @@ numeric,
 pattern,
 
 } from "vue-valid";
-// const cardsStore = useCardsStore();
 const emit = defineEmits(["newOrder", "error"]);
 const props = defineProps({
   cardsStore: Object,

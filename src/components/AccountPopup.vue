@@ -1,7 +1,7 @@
 <template>
   <!-- Main modal -->
   <div
-    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-50 bg-zinc-600 bg-opacity-70"
+    class="fixed top-0 left-0 w-full h-screen flex flex-row justify-center items-stretch z-40 bg-zinc-600 bg-opacity-70"
     :class="{ hidden: !open }"
   >
     <div
@@ -96,20 +96,9 @@
                 </span>
               </label>
             </div>
-            <!-- <div class="flex justify-between">
-              <a
-                href="#"
-                class=" text-sm text-blue-700 hover:underline dark:text-blue-500"
-                >Забыли пароль?</a
-              >
-            </div> -->
+            
             <div class="relative">
-              <!-- <p
-                :class="{ hidden: !model.email.errors.conflict || !model.password.errors.conflict }"
-                class="absolute bottom-14 m-0 left-0 w-full text-lg pb-1 border-red-600 text-red-600"
-              >
-                <span class="font-medium">Ой!</span> Зарегистрируйтесь прежде чем войти
-              </p> -->
+              
               <button
                 type="submit"
                 @onclick="onRedirect"
@@ -161,7 +150,7 @@ const props = defineProps({
 });
 const isEmailError = ref(false);
 const isPasswordError = ref(false);
-// const isError = ref(false);
+
 const emit = defineEmits(["closeAccount", "emit-error", "del-error", "get-user", "get-basket"]);
 const onClose = () => {
   emit("closeAccount");
@@ -169,38 +158,34 @@ const onClose = () => {
 };
 
 const onRedirect = () => {
-  // router.push({ name: "shop" });
-  // onClose();
+
 
   if (!model.checkValid()) return;
   props
     .handleLogIn({ email: model.email.value, password: model.password.value })
     .then((userData) => {
       if (!props.basketArray.length) {
-        debugger;
-        emit("get-user", userData);
+        // emit("get-user", userData);
 
         router.push({ name: "home" });
         onClose();
       } else {
         const basket = props.basketArray.map((card) => card._id);
-        props.handleUpdateBasket(basket).then((data) => {
-          debugger;
-       
-          console.log("Количество карточек, равное нулю", data.cardsZeroAmount.length);
-          emit("get-basket", data.user.basket, data.cardsZeroAmount);
-          emit("get-user", data.user);
-          router.push({ path: "/shop" });
-         // onClose();
-        })
-        .catch((err)=> {
-          emit("emit-error", err.message);
-          emit("get-basket", []);
-          router.push({ path: "/shop" });
-          
-        })
+        props
+          .handleUpdateBasket(basket)
+          .then((data) => {
+            console.log("Количество карточек, равное нулю", data.cardsZeroAmount.length);
+            emit("get-basket", data.user.basket, data.cardsZeroAmount);
+            emit("get-user", data.user);
+            router.push({ path: "/shop" });
+           
+          })
+          .catch((err) => {
+            emit("emit-error", err.message);
+            emit("get-basket", []);
+            router.push({ path: "/shop" });
+          });
       }
-      
     })
 
     .catch((err) => {

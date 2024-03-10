@@ -243,9 +243,7 @@
         class="absolute center-0 -bottom-14 md:center-0 sm:-bottom-4 mt-2 text-xs text-red-600 dark:text-red-400"
         ><span class="font-medium">Ой! </span>
         <template v-if="model.phone.errors.required">Номер телефона обязателен</template>
-        <!-- <template v-else-if="model.phone.errors.numeric"
-          >Номер телефона должен включать только цифры, например 89607693322</template
-        > -->
+       
       </span>
       <input
         type="text"
@@ -288,7 +286,6 @@
 import { ref, watch } from "vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiCellphoneBasic } from "@mdi/js";
-//   import { useUsersStore } from "../stores/usersStore.ts";
 import { mdiEmailOutline } from "@mdi/js";
 import ErrorPopup from "../components/ErrorPopup.vue";
 import router from "../router/index.ts";
@@ -363,7 +360,7 @@ const model = useForm({
     initialValue: props.user.name,
     validators: {
       required,
-      minLength: minLength(5),
+      minLength: minLength(2),
       maxLength: maxLength(24),
       space,
     },
@@ -372,8 +369,8 @@ const model = useForm({
     initialValue: props.user.customerName,
     validators: {
       required,
-      minLength: minLength(5),
-      maxLength: maxLength(24),
+      minLength: minLength(1),
+      maxLength: maxLength(50),
       space,
       pattern: pattern(/^[^,:;*&?%#!]*$/),
     },
@@ -383,7 +380,7 @@ const model = useForm({
     validators: {
       required,
       minLength: minLength(5),
-      maxLength: maxLength(24),
+      maxLength: maxLength(50),
       space,
       pattern: pattern(/^[^,:;*&?%#!]*$/),
     },
@@ -392,8 +389,8 @@ const model = useForm({
     initialValue: props.user.customerSurName,
     validators: {
       required,
-      minLength: minLength(5),
-      maxLength: maxLength(24),
+      minLength: minLength(1),
+      maxLength: maxLength(50),
       space,
       pattern: pattern(/^[^,:;*&?%#!]*$/),
     },
@@ -404,7 +401,7 @@ console.log("model", model);
 const compareFields = () => {
   const keys = Object.keys(currentUserEqualField.value);
   console.log("keys", keys);
-  // keys.push("password");
+
   let userDataTheSameValue = true;
   keys.forEach((key) => {
     if (currentUserEqualField.value[key] !== model[key].value) {
@@ -420,12 +417,7 @@ const compareFields = () => {
 watch(props.user, (user) => {
   console.log("watch", user);
   const keys = Object.keys(currentUserEqualField.value);
-  // currentUserEqualField.value.login = user.name;
-  // currentUserEqualField.value.email = user.email;
-  // currentUserEqualField.value.name = user.customerName;
-  // currentUserEqualField.value.fathersname = user.customerFathersName;
-  // currentUserEqualField.value.lastname = user.customerSurName;
-  // currentUserEqualField.value.phone = user.phone;
+
 
   keys.forEach((key) => {
     model[key].value = currentUserEqualField.value[key].toString();
@@ -454,6 +446,10 @@ const onSubmit = () => {
       .then((data) => {
         emit("user-data-change", data);
         if (!props.profile) router.push({ name: "home" });
+        else {
+          fetchDataError.exist = true;
+          fetchDataError.message = "Ваши данные успешно изменены";
+        }
       })
       .catch((err) => {
         fetchDataError.exist = true;

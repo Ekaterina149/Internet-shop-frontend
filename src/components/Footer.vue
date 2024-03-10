@@ -39,16 +39,7 @@
                     </div>
                
                 </li>
-                <!-- <li>
-                    <SvgIcon
-              type="mdi"
-              h="h-full"
-              w="w-full"
-              size="30"
-              :path="mdiEmailOutline"
-              class="inline-block" />
-              <span class=" me-4 md:me-6">yrkova_ea@inbox.ru</span>
-                </li> -->
+             
                
             </ul>
         </div>

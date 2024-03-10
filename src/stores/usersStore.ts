@@ -40,7 +40,7 @@ export interface user {
   customerSurName: string;
   customerFathersName: string;
   basket: card[];
-  orders: string[];
+  orders: order[];
   verified: boolean;
   phone: string;
 }
@@ -79,6 +79,7 @@ interface createUserParams {
 }
 type updateUserParams = Omit<createUserParams, "password">;
 const orderArray = useLocalStorage<order[]>("orderArray", []);
+// orderArray.value = [];
 type basket = string[];
 // const cardsStore = useCardsStore();
 const newOrder = useLocalStorage<order>("newOrder", {
@@ -127,6 +128,12 @@ export const useUsersStore = defineStore("user", () => {
   });
   const isLoggedIn = ref(false);
 
+  const setUser =(userdata:user)=>{
+  user.value = userdata;
+  orderArray.value = userdata.orders;
+  isLoggedIn.value =!!userdata;
+  }
+
   const _checkRes = <T>(res: Response) => {
     return res.ok ? (res.json() as Promise<T>) : res.json().then((err) => Promise.reject(err));
   };
@@ -137,7 +144,8 @@ export const useUsersStore = defineStore("user", () => {
       credentials: "include",
       headers: SET_DATA_HEADERS,
       body: JSON.stringify({ email, password }),
-    }).then((res) => _checkRes<user>(res));
+    }).then((res) => _checkRes<user>(res))
+    .then((user)=> setUser(user));
   };
   const createUser = ({
     name,
@@ -167,12 +175,15 @@ export const useUsersStore = defineStore("user", () => {
 
   const getUserInfo = () => {
     const href = BASE_URL + "/users/me";
+    
     return fetch(href, { method: "GET", credentials: "include", headers: AUTH_DATA_HEADERS })
       .then((res) => _checkRes<user>(res))
       .then((servdata) => {
         user.value = servdata;
-
+       
+        orderArray.value = servdata.orders;
         isLoggedIn.value = true;
+        ;
         return servdata;
       })
       .catch((err) => {
@@ -183,9 +194,26 @@ export const useUsersStore = defineStore("user", () => {
 
   const signOut = () => {
     const href = BASE_URL + "/signout";
+    orderArray.value =[];
     return fetch(href, { method: "GET", credentials: "include", headers: AUTH_DATA_HEADERS }).then(
       (res) => _checkRes(res)
-    );
+    )
+    .then(()=>{
+      ;
+      isLoggedIn.value = false;
+      user.value = {
+            _id: '',
+            name: '',
+            email: '',
+            customerName: '',
+            customerSurName: '',
+            customerFathersName: '',
+            basket: [],
+            orders: [],
+            verified: false,
+            phone: '',
+          };
+    })
   };
 
   const updateUserInfo = ({
@@ -287,5 +315,6 @@ export const useUsersStore = defineStore("user", () => {
     repeatOrder,
     changePassword,
     initialOrder,
+    setUser,
   };
 });

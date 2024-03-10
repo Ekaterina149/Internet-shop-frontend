@@ -36,15 +36,7 @@
         @click="handleChange(nextIndex)"
       />
     </div>
-    <!-- <div
-      class="swipe_title"
-      v-for="(item, index) in images"
-      v-show="index === currentIndex"
-      :key="index"
-    >
-      {{ item.alt }}
-    </div> -->
-    <!-- <div class="swipe_bottom"></div> -->
+  
   </div>
 </template>
 <script setup>
@@ -119,37 +111,7 @@ onMounted(() => {
 });
 </script>
 <style>
-/* .carousel_swipe {
-  position: relative;
-  overflow: hidden;
-  background-color: transparent;
-  display: grid;
-  grid-template-rows: 350px auto;
-  grid-template-columns: 450px;
-  justify-items: center;
-  align-items: center;
-} */
 
-/* .carousel_swipe::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: black;
-  opacity: 0.1;
-  z-index: 20;
-  visibility: hidden;
-  transition: opacity 0.8s, visibility 0.6s ease-in;
-} */
-
-/* .carousel_swipe:hover::after {
-  opacity: 0.4;
-  visibility: visible;
-} */
 
 .swipe_list {
   width: 100%;
@@ -168,7 +130,7 @@ onMounted(() => {
 
 .swipe_dian {
   position: absolute;
-  z-index: 40;
+  z-index: 30;
   bottom: 0;
   height: 60px;
   text-align: center;

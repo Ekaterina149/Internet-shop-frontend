@@ -8,7 +8,7 @@
         :key="index"
         class="flex flex-col justify-start rounded-xl px-2 pt-2 sm:px-10 sm:py-2 box-border bg-white max-w-[1000px] grow w-full"
       >
-      <!-- <h5>Сумма заказа {{ item.orderSum }}</h5> -->
+     
         <Order
           :order="item"
           @repeat="(id)=> emit('repeatOrd', id)"
@@ -23,7 +23,7 @@
    
   import Order from "./Order.vue";
   import {computed} from "vue";
-  // const cardsStore = useCardsStore();
+  
    const props = defineProps({
     user: Object,
     orderArrayWithQuantity: Array,

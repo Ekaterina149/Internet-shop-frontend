@@ -11,7 +11,7 @@
       <template v-slot:routerLink>
         <RouterLink
           to="shop"
-          class="h-full w-full flex items-center justify-center absolute z-30 text-white text-3xl rounded md:bg-slate-700 bg-slate-700 md:bg-opacity-0 bg-opacity-0 md:hover:text-3xl hover:bg-slate-700 hover:bg-opacity-60 transition-bg-opacity ease-in duration-300 hover:ease-out"
+          class="h-full w-full flex items-center justify-center absolute z-30 text-white text-3xl rounded  bg-slate-700  bg-opacity-0 md:hover:text-3xl hover:bg-slate-700 hover:bg-opacity-60 transition-bg-opacity ease-in duration-300 hover:ease-out"
         >
           В магазин &rarr;
         </RouterLink>

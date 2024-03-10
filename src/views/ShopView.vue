@@ -17,7 +17,12 @@
       @update:max-price="onUpdateMaxPrice"
       @update:min-price="onUpdateMinPrice"
       @update:basket-checkbox="(value) => (filters.isBasket = value)"
-      @update:bag-checkbox="(value) => (filters.isBag = value)"
+      @update:bag-checkbox="
+        (value) => {
+          console.log('bag');
+          filters.isBag = value;
+        }
+      "
       @update:small-checkbox="(value) => (filters.isSmall = value)"
       @update:tray-checkbox="(value) => (filters.isTray = value)"
     />
@@ -58,6 +63,7 @@ const filteredCards = ref([]);
 
 const filterCards = () => {
   const filterkeys = Object.keys(filters);
+
   const filteredArray = cardsStore.cardsArray.filter((item) => {
     let pass = {
       isBasket: true,
@@ -84,8 +90,7 @@ const onUpdateMaxPrice = (value) => {
   return (filters.maxPrice = parseInt(value));
 };
 const onUpdateMinPrice = (value) => (filters.minPrice = parseInt(value));
-console.log("minPrice", filters.minPrice);
-console.log("maxPrice", filters.maxPrice);
+
 const startMinPrice = ref(4000);
 const startMaxPrice = ref(6300);
 watch(
@@ -100,7 +105,13 @@ watch(
   }
 );
 watch(
-  [() => filters.minPrice, () => filters.maxPrice, () => filters.isBasket, () => filters.isTray],
+  [
+    () => filters.minPrice,
+    () => filters.maxPrice,
+    () => filters.isBasket,
+    () => filters.isTray,
+    () => filters.isBag,
+  ],
   () => {
     filteredCards.value = filterCards();
   }
@@ -108,6 +119,7 @@ watch(
 onMounted(() => {
   filters.minPrice = Math.min(...cardsStore.cardsArray.map((card) => card.price));
   filters.maxPrice = Math.max(...cardsStore.cardsArray.map((card) => card.price));
+
   filteredCards.value = filterCards();
 });
 </script>

@@ -40,19 +40,7 @@
             @on-close="
               () => {
                 emit('accountOpen', false);
-                userStore.isLoggedIn = false;
-                userStore.user = {
-                      _id: '',
-                      name: '',
-                      email: '',
-                      customerName: '',
-                      customerSurName: '',
-                      customerFathersName: '',
-                      basket: [],
-                      orders: [],
-                      verified: false,
-                      phone: 0,
-                    };
+               
               }
             "
           />
@@ -127,19 +115,7 @@
                 @on-close="
                   () => {
                     emit('accountOpen', false);
-                    userStore.isLoggedIn = false;
-                    userStore.user = {
-                      _id: '',
-                      name: '',
-                      email: '',
-                      customerName: '',
-                      customerSurName: '',
-                      customerFathersName: '',
-                      basket: [],
-                      orders: [],
-                      verified: false,
-                      phone: 0,
-                    };
+                   
                   }
                 "
               />
