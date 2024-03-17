@@ -51,6 +51,19 @@ export default defineConfig(({ mode }) => ({
   base: mode == "development" ? "" : "./",
   server: {
     port: 3000,
+    proxy: {
+    "/api": {
+      target:  "http://localhost:3001",
+      changeOrigin: true,
+      secure: true,
+      ws: true,
+      configure: (proxy, _options) => {
+        proxy.on("error", (err, _req, _res) => {
+          console.log("proxy error", err);
+        });
+    },
+  },
+  },
   },
   resolve: {
     alias: {
